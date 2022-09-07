@@ -3,7 +3,7 @@ package ss3_array_method_in_java.exercise;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class DeleteElement {
+public class AddElement {
     public static void main(String[] args) {
         int size;
         int[] array;
@@ -24,18 +24,21 @@ public class DeleteElement {
         for (int j = 0; j < array.length; j++) {
             System.out.print(array[j] + " ");
         }
+        // nhập số cần chèn
+        System.out.print("\nNhap so can chen: ");
+        int X = Integer.parseInt(scanner.nextLine());
 
-        // nhap vao phan tu can xoa
-        System.out.print("\nNhap vao phan tu can xoa: ");
-        int N = Integer.parseInt(scanner.nextLine());
-
-        for (int j = 0; j < array.length; j++) {
-            if (N == array[j]) {
-                for (int k = j; k < array.length - 1; k++) {
-                    array[k] = array[k + 1];
-                }
+        // nhập vào vị trí cần chèn trong mảng
+        System.out.print("Nhap vao vi tri can chen: ");
+        int index = Integer.parseInt(scanner.nextLine());
+        if (index <= -1 || index >= array.length - 1) {
+            System.out.println("vi tri nhap vao khong chen duoc!");
+        } else {
+            for (int j = array[index]; j > index; j--) {
+                array[j] = array[j - 1];
             }
+            array[index] = X;
         }
-        System.out.println(Arrays.toString(array));
+        System.out.println("mang sau khi chen la: " + Arrays.toString(array));
     }
 }
