@@ -1,10 +1,30 @@
 package ss3_array_method_in_java.practice;
 
+import java.util.Scanner;
+
 public class FindMinElement2 {
     public static void main(String[] args) {
-        int[] arr = {4, 12, 7, 8, 1, 6, 9};
-        int index = minValue(arr);
-        System.out.println("Gia tri nho nhat trong mang la:  " + arr[index]);
+        int size;
+        int[] array;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Nhập số lượng các phần tử trong mảng: ");
+        size = scanner.nextInt();
+        array = new int[size];
+        int i = 0;
+        while (i < array.length) {
+            System.out.print("Nhập phần tử thứ " + (i + 1) + " : ");
+            array[i] = scanner.nextInt();
+            i++;
+        }
+        System.out.print("Mảng vừa nhập: ");
+        for (int j = 0; j < array.length; j++) {
+            System.out.print(array[j] + "\t");
+        }
+
+
+        int index = minValue(array);
+        System.out.println("\nGiá trị nhỏ nhất trong mảng là:  " + array[index]);
     }
 
     public static int minValue(int[] array) {

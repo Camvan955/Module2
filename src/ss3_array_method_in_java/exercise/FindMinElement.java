@@ -8,28 +8,32 @@ public class FindMinElement {
         int[] array;
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Nhập số phần tử của mảng: ");
+        System.out.print("Nhập số lượng các phần tử trong mảng: ");
         size = scanner.nextInt();
-
         array = new int[size];
         int i = 0;
         while (i < array.length) {
-            System.out.print("Phần tử thứ " + (i + 1) + " : ");
+            System.out.print("Nhập phần tử thứ " + (i + 1) + " : ");
             array[i] = scanner.nextInt();
             i++;
         }
-        System.out.print("Các phần tử có trong mảng: ");
+        System.out.print("Mảng vừa nhập: ");
         for (int j = 0; j < array.length; j++) {
             System.out.print(array[j] + "\t");
         }
-        int min = array[0];
-        int index = 1;
-        for (int j = 0; j < array.length; j++) {
-            if (array[j] < min) {
-                min = array[j];
-                index = j + 1;
+
+
+        int index = minValue(array);
+        System.out.println("\nGiá trị nhỏ nhất trong mảng là:  " + array[index]);
+    }
+
+    public static int minValue(int[] array) {
+        int index = 0;
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] < array[index]) {
+                index = i;
             }
         }
-        System.out.println("\nGiá trị nhỏ nhất của mảng: " + min + " ,o vi tri thu: " + index);
+        return index;
     }
 }
