@@ -1,6 +1,7 @@
 package ss3_array_method_in_java.exercise;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class MergeArray {
     public static void main(String[] args) {
@@ -15,7 +16,6 @@ public class MergeArray {
             arr[arr1.length+i] = arr2[i];
         }
 
-        System.out.print("Mang sau khi gop la: "+ Arrays.toString(arr));
-
+        System.out.print("Mảng sau khi gộp là: "+ Arrays.toString(arr));
     }
 }

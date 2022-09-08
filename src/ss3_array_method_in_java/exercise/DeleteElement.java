@@ -8,25 +8,25 @@ public class DeleteElement {
         int size;
         int[] array;
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Nhap vao do dai mang: ");
+        System.out.print("Nhập vào độ dài mảng: ");
         size = Integer.parseInt(scanner.nextLine());
 
         // nhập các giá trị cho phần tử của mảng.
         array = new int[size];
         int i = 0;
         while (i < array.length) {
-            System.out.print("nhap phan tu thu " + (i + 1) + ": ");
+            System.out.print("Nhập phần tử thứ " + (i + 1) + ": ");
             array[i] = Integer.parseInt(scanner.nextLine());
             i++;
         }
         // in ra mảng đã nhập
-        System.out.print("Mang da nhap: ");
+        System.out.print("Mảng đã nhập: ");
         for (int j = 0; j < array.length; j++) {
             System.out.print(array[j] + " ");
         }
 
         // nhap vao phan tu can xoa
-        System.out.print("\nNhap vao phan tu can xoa: ");
+        System.out.print("\nNhập vào phần tử cần xóa: ");
         int N = Integer.parseInt(scanner.nextLine());
 
         for (int j = 0; j < array.length; j++) {
