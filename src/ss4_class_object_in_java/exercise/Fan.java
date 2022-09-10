@@ -1,6 +1,6 @@
 package ss4_class_object_in_java.exercise;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+
 
 public class Fan {
     final int SLOW = 1;
@@ -46,14 +46,25 @@ public class Fan {
     public Fan() {
     }
 
+
+    @Override
     public String toString() {
         if (isOn()) {
-            return " Speed " + getSpeed()+ " Color " + getColor() + " Radius " + getRadius() + " fan is on";
+            return "Fan is on{" +
+                    " speed=" + speed +
+                    ", on=" + on +
+                    ", radius=" + radius +
+                    ", color='" + color + '\'' +
+                    '}';
         } else {
-            return " Color " + getColor() + " Radius " + getRadius() + " fan is off";
+            return "Fan is off{" +
+                    " speed=" + speed +
+                    ", on=" + on +
+                    ", radius=" + radius +
+                    ", color='" + color + '\'' +
+                    '}';
         }
     }
-
     public static void main(String[] args) {
         Fan fan1 = new Fan();
         fan1.setSpeed(fan1.FAST);
