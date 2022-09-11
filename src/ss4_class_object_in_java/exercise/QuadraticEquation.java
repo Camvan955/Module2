@@ -33,13 +33,13 @@ public class QuadraticEquation {
 
     public double getRoot1() {
         double r1;
-        r1 = (-b + Math.sqrt((b*b - 4 * a * c))) / (2 * a);
+        r1 = (-b + Math.sqrt(getDiscriminant())) / (2 * a);
         return r1;
     }
 
     public double getRoot2() {
         double r2;
-        r2 = (-b - Math.sqrt((b*b - 4 * a * c))) / (2 * a);
+        r2 = (-b - Math.sqrt(getDiscriminant())) / (2 * a);
         return r2;
     }
 
@@ -60,9 +60,9 @@ public class QuadraticEquation {
         if (quadraticEquation.getDiscriminant() < 0) {
             System.out.println("Phương trình vô nghiệm");
         } else if (quadraticEquation.getDiscriminant() == 0) {
-            System.out.println("Phương trình có nghiệm kép là x=" + quadraticEquation.doubleSolution());
+            System.out.println("Phương trình có nghiệm kép là x= " + quadraticEquation.doubleSolution());
         } else {
-            System.out.println("Phương trình có hai nghiệm là x1=" + quadraticEquation.getRoot1() + " và x2= " + quadraticEquation.getRoot2());
+            System.out.println("Phương trình có hai nghiệm là x1= " + quadraticEquation.getRoot1() + " và x2= " + quadraticEquation.getRoot2());
         }
     }
 }
