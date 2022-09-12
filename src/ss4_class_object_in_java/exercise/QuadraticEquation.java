@@ -43,10 +43,6 @@ public class QuadraticEquation {
         return r2;
     }
 
-    public double doubleSolution() {
-        return (-b / 2 * a);
-    }
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Nhập vào hệ số a: ");
@@ -60,7 +56,7 @@ public class QuadraticEquation {
         if (quadraticEquation.getDiscriminant() < 0) {
             System.out.println("Phương trình vô nghiệm");
         } else if (quadraticEquation.getDiscriminant() == 0) {
-            System.out.println("Phương trình có nghiệm kép là x= " + quadraticEquation.doubleSolution());
+            System.out.println("Phương trình có nghiệm kép là x= " + quadraticEquation.getRoot1());
         } else {
             System.out.println("Phương trình có hai nghiệm là x1= " + quadraticEquation.getRoot1() + " và x2= " + quadraticEquation.getRoot2());
         }
