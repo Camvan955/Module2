@@ -27,6 +27,14 @@ public class Student {
         this.classes = classes;
     }
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", classes='" + classes + '\'' +
+                '}';
+    }
+
     // thay đổi access modifier:
     // public, default, protected: ok
     //private: no ok
