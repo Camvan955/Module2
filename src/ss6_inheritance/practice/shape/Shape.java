@@ -12,6 +12,9 @@ public class Shape {
         this.filled = filled;
     }
 
+    public Shape(double side, String color, boolean filled) {
+    }
+
     public String getColor() {
         return color;
     }
@@ -30,9 +33,9 @@ public class Shape {
 
     @Override
     public String toString() {
-        return "A Shape with color of "
+        return " Hình có màu: "
                 + getColor()
-                + " and "
+                + " và "
                 + (isFilled() ? "filled" : "not filled");
     }
 
