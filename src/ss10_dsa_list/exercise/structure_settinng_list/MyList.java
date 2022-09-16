@@ -95,21 +95,21 @@ public class MyList<E> {
         return v;
     }
 
-    public E remove(int index) {
-        if (index < 0 || index > elements.length) {
-            throw new IllegalArgumentException("Error index:" + index);
-
-            E element = (E) elements(index){
-                for (int i = 0; i < size-1; i++) {
-                    elements[i] = elements[i+1];
-
-                }
-                elements[size -1 ] = null;
-                size --;
-                return element;
-            }
-        }
-    }
+//    public E remove(int index) {
+//        if (index < 0 || index > elements.length) {
+//            throw new IllegalArgumentException("Error index:" + index);
+//
+//            E element = (E) elements(index){
+//                for (int i = 0; i < size-1; i++) {
+//                    elements[i] = elements[i+1];
+//
+//                }
+//                elements[size -1 ] = null;
+//                size --;
+//                return element;
+//            }
+//        }
+//    }
 
 }
 
