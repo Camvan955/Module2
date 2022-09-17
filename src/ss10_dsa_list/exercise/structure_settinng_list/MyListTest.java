@@ -1,7 +1,9 @@
 package ss10_dsa_list.exercise.structure_settinng_list;
 
 public class MyListTest {
-    public static class Student{
+    private static Student Student;
+
+    public static class Student {
         private int id;
         private String name;
 
@@ -29,13 +31,6 @@ public class MyListTest {
             this.name = name;
         }
 
-        @Override
-        public String toString() {
-            return "Học sinh {" +
-                    "có mã số = " + id +
-                    ", tên= '" + name + '\'' +
-                    '}';
-        }
     }
 
     public static void main(String[] args) {
@@ -51,10 +46,10 @@ public class MyListTest {
         studentMyList.add(b);
         studentMyList.add(c);
         studentMyList.add(d);
-        studentMyList.add(2,f);
+        studentMyList.add(2, f);
 
-        for (int i = 0; i < studentMyList.size() ; i++) {
-           Student student =(Student) studentMyList.elements[i];
+        for (int i = 0; i < studentMyList.size(); i++) {
+            Student student = (Student) studentMyList.elements[i];
             System.out.println(student.getId() + " " + student.getName());
 
         }
@@ -67,12 +62,18 @@ public class MyListTest {
 
         System.out.println(studentMyList.contains(b));
 
-        newMyList = studentMyList.clone();
+     newMyList = studentMyList.clone();
+     Student = studentMyList.remove(3);
         for (int i = 0; i < newMyList.size(); i++) {
             System.out.println(newMyList.get(i).getName());
 
         }
 
+        newMyList.remove(3);
+        System.out.println("Xóa học sinh tên "+a.getName());
+
+
     }
 
 }
+
