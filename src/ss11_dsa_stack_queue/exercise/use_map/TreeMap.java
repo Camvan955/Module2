@@ -1,7 +1,8 @@
 package ss11_dsa_stack_queue.exercise.use_map;
 
 import java.util.Arrays;
-import java.util.Map;
+//import java.util.Map;
+import java.util.*;
 import java.util.Scanner;
 
 
