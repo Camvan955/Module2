@@ -6,7 +6,7 @@ import java.util.Stack;
 
 
 public class Palindrome {
-    private static String str = "vaV";
+    private static String str = "vAnav";
 
     public static void main(String[] args) {
         str = str.toLowerCase();
@@ -15,9 +15,6 @@ public class Palindrome {
 
         for (int i = 0; i < str.length(); i++) {
             stringStack.push(str.charAt(i) + "");
-        }
-
-        for (int i = 0; i < str.length(); i++) {
             stringQueue.add(str.charAt(i) + "");
         }
 
