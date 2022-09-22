@@ -43,7 +43,40 @@ public class TeacherService<flagDelete> implements ITeacherService {
             }
         }
     }
-        public Teacher inforTeacher() {
+
+    @Override
+    public void searchTeacher() {
+        int choice;
+        System.out.print("Nhập tùy chọn: 1: tìm theo tên giảng viên - 2: tìm theo mã giảng viên: \t");
+        choice = Integer.parseInt(scanner.nextLine());
+        if (choice == 1) {
+            System.out.print("Nhập tên giảng viên: ");
+            String nameTeacher = scanner.nextLine();
+            System.out.print("Kết quả của tìm kiếm là: ");
+            for (Teacher teacher : teacherList) {
+                if (teacher.getName().indexOf(nameTeacher) >= 0) {
+                    System.out.println(teacher.toString());
+                }
+                else {
+                    System.out.println("Không có giảng viên phù hợp với từ khóa vừa nhập");
+                }
+            }
+        } else if (choice == 2) {
+            System.out.print("Nhập mã giảng viên: ");
+            String codeTeacher = scanner.nextLine();
+            System.out.println("Kết quả của tìm kiếm là: ");
+            for (Teacher teacher : teacherList) {
+                if (teacher.getCode().indexOf(codeTeacher) >= 0) {
+                    System.out.println(teacher.toString());
+                }
+                else {
+                    System.out.println("Không có giảng viên phù hợp với từ khóa vừa nhập");
+                }
+            }
+        }
+    }
+
+    public Teacher inforTeacher() {
         System.out.print("Nhập mã giảng viên: ");
         String code = scanner.nextLine();
         System.out.print("Nhập tên giảng viên: ");

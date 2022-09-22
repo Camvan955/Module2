@@ -17,7 +17,8 @@ public class TeacherController {
             System.out.println("1. Thêm mới giảng viên");
             System.out.println("2. Hiển thị danh sách giảng viên");
             System.out.println("3. Xóa giảng viên");
-            System.out.println("4. Thoát");
+            System.out.println("4. Tìm kiếm giảng viên");
+            System.out.println("5. Thoát");
             System.out.print("Vui lòng nhập lựa chọn của bạn: ");
             int choice = Integer.parseInt(scanner.nextLine());
 
@@ -32,7 +33,11 @@ public class TeacherController {
                     iTeacherService.removeTeacher();
                     break;
                 case 4:
+                    iTeacherService.searchTeacher();
+                case 5:
                     return;
+                default:
+                    System.out.println("Nhập sai rồi!");
 
             }
         }

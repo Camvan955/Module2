@@ -1,6 +1,7 @@
 package ss_exercise_plus.esercise1.service.impl;
 
 import ss_exercise_plus.esercise1.model.Student;
+import ss_exercise_plus.esercise1.model.Teacher;
 import ss_exercise_plus.esercise1.service.IStudentService;
 
 import java.util.ArrayList;
@@ -48,8 +49,40 @@ public class StudentService<flagDelete> implements IStudentService {
         }
     }
 
-
-
+    @Override
+    public void searchStudent() {
+        int choice;
+        System.out.print("Nhập tùy chọn: 1: tìm theo tên học viên - 2: tìm theo mã học viên: \t");
+        choice = Integer.parseInt(scanner.nextLine());
+        if (choice == 1) {
+            System.out.print("Nhập tên học viên: ");
+            String nameStudent = scanner.nextLine();
+            System.out.print("Kết quả của tìm kiếm là: ");
+            for (Student student: studentList) {
+                if (student.getName().indexOf(nameStudent) >= 0) {
+                    System.out.println(student.toString());
+                }
+                else {
+                    System.out.println("Không có học viên phù hợp với từ khóa vừa nhập");
+                }
+            }
+        } else if (choice == 2) {
+            System.out.print("Nhập mã học viên: ");
+            String codeStudent = scanner.nextLine();
+            System.out.println("Kết quả của tìm kiếm là: ");
+            for (Student student: studentList) {
+                if (student.getCode().indexOf(codeStudent) >= 0) {
+                    System.out.println(student.toString());
+                }
+                else {
+                    System.out.println("Không có học viên phù hợp với từ khóa vừa nhập");
+                }
+            }
+        }
+        else {
+            System.out.println("Lựa chọn không nằm trong phạm vi tìm kiếm");
+        }
+    }
 
     public Student inforStudent() {
         System.out.print("Nhập mã học viên: ");

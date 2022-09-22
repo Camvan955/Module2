@@ -25,6 +25,8 @@ public class PersonController {
                 case 3:
                     System.exit(0);
                     break;
+                default:
+                    System.out.println("nhập sai rồi!");
             }
         }
     }
