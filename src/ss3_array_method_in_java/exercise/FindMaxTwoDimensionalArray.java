@@ -3,7 +3,7 @@ package ss3_array_method_in_java.exercise;
 import java.util.Scanner;
 
 public class FindMaxTwoDimensionalArray {
-    //  public static void main(String[] args) {
+    //  public static void Main(String[] args) {
 //        int[][] array = {{1, 2, 12}, {4, 5, 6}, {7, 8, 9}};
 //        float max = array[0][0];
 //        int indexI = 0, indexJ = 0;
