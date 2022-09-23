@@ -19,7 +19,8 @@ public class StudentController {
             System.out.println("2. Hiển thị danh sách học viên");
             System.out.println("3. Xóa học viên");
             System.out.println("4. Tìm kiếm học viên");
-            System.out.println("5. Thoát");
+            System.out.println("5. Sắp xếp học viên");
+            System.out.println("6. Thoát");
             System.out.print("Vui lòng nhập lựa chọn của bạn: ");
             int choice = Integer.parseInt(scanner.nextLine());
 
@@ -37,8 +38,11 @@ public class StudentController {
                     iStudentService.searchStudent();
                     break;
                 case 5:
+                    iStudentService.sortStudent();
+                    break;
+                case 6:
+                    System.exit(0);
                     return;
-
                 default:
                     System.out.println("Nhập sai rồi!");
 

@@ -1,6 +1,6 @@
 package ss_exercise_plus.esercise1.model;
 
-public class Student extends Person {
+public class Student extends Person implements Comparable<Student> {
     private String nameClass;
     private double point;
 
@@ -37,8 +37,17 @@ public class Student extends Person {
     @Override
     public String toString() {
         return  super.toString() +
-                " nameClass='" + nameClass + '\'' +
+                " nameClass=" + nameClass + '\'' +
                 ", point=" + point +
                 '}';
+    }
+
+
+    @Override
+    public int compareTo(Student o) {
+        if (o.getName().compareTo(o.getName()) != 0 ) {
+            return o.getName().compareTo(o.getName());
+        }
+        return o.getCode().compareTo(o.getCode());
     }
 }

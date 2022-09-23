@@ -1,28 +1,28 @@
 package ss_exercise_plus.esercise1.service.impl;
 
 import ss_exercise_plus.esercise1.model.Student;
-import ss_exercise_plus.esercise1.model.Teacher;
 import ss_exercise_plus.esercise1.service.IStudentService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class StudentService<flagDelete> implements IStudentService {
-    private static Scanner scanner= new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
     private static List<Student> studentList = new ArrayList<>();
 
     @Override
     public void addStudent() {
-        Student student = this.inforStudent();
+        Student student = this.infoStudent();
         studentList.add(student);
         System.out.println("Thêm mới thành công!");
     }
 
     @Override
     public void displayStudent() {
-    for(Student student: studentList){
-        System.out.println(student);
+        for (Student student : studentList) {
+            System.out.println(student);
         }
     }
 
@@ -32,7 +32,7 @@ public class StudentService<flagDelete> implements IStudentService {
         String code = scanner.nextLine();
         boolean flagDelete = false;
         for (int i = 0; i < studentList.size(); i++) {
-            if(studentList.get(i).getCode().equals(code)) {
+            if (studentList.get(i).getCode().equals(code)) {
                 System.out.print("Bạn có chắc muốn xóa học viên này không? Y: có - N: không");
                 String choice = scanner.nextLine();
                 if (choice.equals("y")) {
@@ -44,7 +44,7 @@ public class StudentService<flagDelete> implements IStudentService {
             }
 
         }
-        if(!flagDelete) {
+        if (!flagDelete) {
             System.out.println("Không tìm thấy học viên cần xóa!");
         }
     }
@@ -54,37 +54,88 @@ public class StudentService<flagDelete> implements IStudentService {
         int choice;
         System.out.print("Nhập tùy chọn: 1: tìm theo tên học viên - 2: tìm theo mã học viên: \t");
         choice = Integer.parseInt(scanner.nextLine());
-        if (choice == 1) {
-            System.out.print("Nhập tên học viên: ");
-            String nameStudent = scanner.nextLine();
-            System.out.print("Kết quả của tìm kiếm là: ");
-            for (Student student: studentList) {
-                if (student.getName().indexOf(nameStudent) >= 0) {
-                    System.out.println(student.toString());
+//        if (choice == 1) {
+//            System.out.print("Nhập tên học viên: ");
+//            String nameStudent = scanner.nextLine();
+//            System.out.print("Kết quả của tìm kiếm là: ");
+//            for (Student student: studentList) {
+//                if (student.getName().indexOf(nameStudent) >= 0) {
+//                    System.out.println(student.toString());
+//                }
+//                else {
+//                    System.out.println("Không có học viên phù hợp với từ khóa vừa nhập");
+//                }
+//            }
+//        } else if (choice == 2) {
+//            System.out.print("Nhập mã học viên: ");
+//            String codeStudent = scanner.nextLine();
+//            System.out.println("Kết quả của tìm kiếm là: ");
+//            for (Student student: studentList) {
+//                if (student.getCode().indexOf(codeStudent) >= 0) {
+//                    System.out.println(student.toString());
+//                }
+//                else {
+//                    System.out.println("Không có học viên phù hợp với từ khóa vừa nhập");
+//                }
+//            }
+//        }
+//        else {
+//            System.out.println("Lựa chọn không nằm trong phạm vi tìm kiếm");
+//        }
+
+        switch (choice) {
+            case 1:
+                System.out.print("Nhập mã học viên: ");
+                String codeStudent = scanner.nextLine();
+                System.out.println("Kết quả của tìm kiếm là: ");
+                for (int i = 0; i < studentList.size(); i++) {
+                    if (studentList.get(i).getCode().equals(codeStudent)) {
+                        System.out.println(studentList.get(i));
+                    } else {
+                        System.out.println("Không có học viên phù hợp với từ khóa vừa nhập");
+                    }
                 }
-                else {
-                    System.out.println("Không có học viên phù hợp với từ khóa vừa nhập");
+                break;
+            case 2:
+                System.out.print("Nhập mã học viên: ");
+                String nameStudent = scanner.nextLine();
+                System.out.println("Kết quả của tìm kiếm là: ");
+                for (int i = 0; i < studentList.size(); i++) {
+                    if (studentList.get(i).getName().contains(nameStudent)) {
+                        System.out.println(studentList.get(i));
+                    } else {
+                        System.out.println("Lựa chọn không nằm trong phạm vi tìm kiếm");
+                    }
                 }
-            }
-        } else if (choice == 2) {
-            System.out.print("Nhập mã học viên: ");
-            String codeStudent = scanner.nextLine();
-            System.out.println("Kết quả của tìm kiếm là: ");
-            for (Student student: studentList) {
-                if (student.getCode().indexOf(codeStudent) >= 0) {
-                    System.out.println(student.toString());
-                }
-                else {
-                    System.out.println("Không có học viên phù hợp với từ khóa vừa nhập");
-                }
-            }
-        }
-        else {
-            System.out.println("Lựa chọn không nằm trong phạm vi tìm kiếm");
+                break;
+            default:
+                System.out.println("Lựa chọn không nằm trong phạm vi tìm kiếm");
         }
     }
 
-    public Student inforStudent() {
+
+    @Override
+    public void sortStudent() {
+        if (studentList.size() <= 0) {
+            System.out.println("Không có danh sách");
+            return;
+        }
+        Boolean iSwap = true;
+        for (int i = 0; i < studentList.size() - 1 && iSwap; i++) {
+            iSwap = false;
+            for (int j = 0; j < studentList.size() - i - 1; j++) {
+                if (studentList.get(j).compareTo(studentList.get(j + 1)) > 0) {
+                    iSwap = true;
+                    Student temp = studentList.get(j + 1);
+                    studentList.set(j + 1, studentList.get(j));
+                    studentList.set(j, temp);
+                }
+            }
+        }
+        System.out.println("Sắp xếp thành công!");
+    }
+
+    public Student infoStudent() {
         System.out.print("Nhập mã học viên: ");
         String code = scanner.nextLine();
         System.out.print("Nhập tên học viên: ");
@@ -94,7 +145,7 @@ public class StudentService<flagDelete> implements IStudentService {
         System.out.print("Nhập giới tính học viên: ");
         String tempGender = scanner.nextLine();
         Boolean gender;
-        if(tempGender.equals("Nam")) {
+        if (tempGender.equals("Nam")) {
             gender = true;
         } else if (tempGender.equals("Nữ")) {
             gender = false;
@@ -105,7 +156,8 @@ public class StudentService<flagDelete> implements IStudentService {
         String nameClass = scanner.nextLine();
         System.out.print("Nhập điểm của học viên: ");
         Double point = Double.parseDouble(scanner.nextLine());
-        Student student = new Student(code, name, dateOfBirth, gender, nameClass, point );
+        Student student = new Student(code, name, dateOfBirth, gender, nameClass, point);
         return student;
     }
 }
+

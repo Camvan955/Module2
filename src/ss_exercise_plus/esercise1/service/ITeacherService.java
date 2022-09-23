@@ -9,4 +9,6 @@ public interface ITeacherService {
     void removeTeacher();
 
     void searchTeacher();
+
+    void sortTeacher();
 }

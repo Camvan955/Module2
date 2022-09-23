@@ -20,8 +20,6 @@ public class SearchBinary {
             arr[i] = Integer.parseInt(sc.nextLine());
         }
 
-//        System.out.println(Arrays.toString(arr));
-
         System.out.println("Mảng ban đầu là: " + Arrays.toString(arr));
         int temp = arr[0];
         for (int i = 1; i < arr.length; i++) {
@@ -42,7 +40,6 @@ public class SearchBinary {
 
 
     static int binarySearch(int[] arr, int left, int right, int value) {
-//        System.out.println("Nhập vào giá trị cần tìm");
         int mid = (left + right / 2);
         if (left > right) {
             return -1;
