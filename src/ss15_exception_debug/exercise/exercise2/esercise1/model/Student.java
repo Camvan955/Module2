@@ -1,4 +1,4 @@
-package ss_exercise_plus.esercise1.model;
+package ss15_exception_debug.exercise.exercise2.esercise1.model;
 
 public class Student extends Person implements Comparable<Student> {
     private String nameClass;
