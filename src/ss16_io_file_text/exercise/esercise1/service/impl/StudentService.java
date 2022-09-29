@@ -1,10 +1,15 @@
-package ss_exercise_plus.esercise1.service.impl;
+package ss16_io_file_text.exercise.esercise1.service.impl;
 
-import ss_exercise_plus.esercise1.model.Student;
-import ss_exercise_plus.esercise1.service.IStudentService;
+import ss15_exception_debug.exercise.exercise2.esercise1.service.utils.CodeException;
+import ss15_exception_debug.exercise.exercise2.esercise1.service.utils.DateException;
+import ss15_exception_debug.exercise.exercise2.esercise1.service.utils.NameException;
+import ss15_exception_debug.exercise.exercise2.esercise1.service.utils.PointException;
+import ss16_io_file_text.exercise.esercise1.model.Student;
+import ss16_io_file_text.exercise.esercise1.model.Teacher;
+import ss16_io_file_text.exercise.esercise1.service.IStudentService;
 
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,14 +18,18 @@ public class StudentService<flagDelete> implements IStudentService {
     private static List<Student> studentList = new ArrayList<>();
 
     @Override
-    public void addStudent() {
+    public void addStudent() throws IOException {
+
+        studentList = readFile();
         Student student = this.infoStudent();
         studentList.add(student);
         System.out.println("Thêm mới thành công!");
+        writeFile(studentList);
     }
 
     @Override
-    public void displayStudent() {
+    public void displayStudent() throws IOException {
+        studentList = readFile();
         for (Student student : studentList) {
             System.out.println(student);
         }
@@ -50,7 +59,8 @@ public class StudentService<flagDelete> implements IStudentService {
     }
 
     @Override
-    public void searchStudent() {
+    public void searchStudent() throws IOException {
+        studentList = readFile();
         int choice;
         System.out.print("Nhập tùy chọn: 1: tìm theo tên học viên - 2: tìm theo mã học viên: \t");
         choice = Integer.parseInt(scanner.nextLine());
@@ -87,7 +97,8 @@ public class StudentService<flagDelete> implements IStudentService {
 
 
     @Override
-    public void sortStudent() {
+    public void sortStudent() throws IOException {
+        studentList = readFile();
         if (studentList.size() <= 0) {
             System.out.println("Không có danh sách");
             return;
@@ -104,20 +115,47 @@ public class StudentService<flagDelete> implements IStudentService {
                 }
             }
         }
+        writeFile(studentList);
         System.out.println("Sắp xếp thành công!");
     }
 
     public Student infoStudent() {
+        String code, name, nameClass;
+        String dateOfBirth ;
+        double point;
+        Boolean gender;
 
-        System.out.print("Nhập mã học viên: ");
-        String code = scanner.nextLine();
-        System.out.print("Nhập tên học viên: ");
-        String name = scanner.nextLine();
-        System.out.print("Nhập ngày sinh học viên: ");
-        String dateOfBirth = scanner.nextLine();
+        while (true) {
+            try{
+                System.out.print("Nhập mã học viên: ");
+                CodeException.codeCheck(code = scanner.nextLine());
+                break;
+            } catch (CodeException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("Nhập tên học viên: ");
+                NameException.nameCheck(name = scanner.nextLine());
+                break;
+            } catch (NameException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        while (true) {
+            try {
+                System.out.print("Nhập ngày sinh học viên: ");
+                DateException.dateCheck(dateOfBirth = scanner.nextLine());
+                break;
+            } catch (DateException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
         System.out.print("Nhập giới tính học viên: ");
         String tempGender = scanner.nextLine();
-        Boolean gender;
         if (tempGender.equals("Nam")) {
             gender = true;
         } else if (tempGender.equals("Nữ")) {
@@ -126,11 +164,50 @@ public class StudentService<flagDelete> implements IStudentService {
             gender = null;
         }
         System.out.print("Nhập tên lớp của học viên: ");
-        String nameClass = scanner.nextLine();
-        System.out.print("Nhập điểm của học viên: ");
-        Double point = Double.parseDouble(scanner.nextLine());
+         nameClass = scanner.nextLine();
+
+        while (true) {
+            try {
+                System.out.print("Nhập điểm của học viên: ");
+                PointException.pointCheck(point = Double.parseDouble(scanner.nextLine()));
+                break;
+            } catch (PointException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
         Student student = new Student(code, name, dateOfBirth, gender, nameClass, point);
         return student;
+    }
+
+    private List<Student> readFile() throws IOException{
+        studentList = new ArrayList<>();
+        File file = new File("src\\ss16_io_file_text\\exercise\\esercise1\\data\\student.txt");
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+
+        String line;
+        String[] studentArray;
+        while ((line = bufferedReader.readLine()) != null) {
+            studentArray = line.split(",");
+            studentList.add(new Student(studentArray[0],studentArray[1], studentArray[2],Boolean.parseBoolean(studentArray[3]),studentArray[4], Double.parseDouble(studentArray[5])));
+        }
+        bufferedReader.close();
+
+        return studentList;
+    }
+
+    private void writeFile(List<Student> studentList) throws IOException {
+        File file = new File("src\\ss16_io_file_text\\exercise\\esercise1\\data\\teacher.txt");
+
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+
+
+        for (Student student : studentList) {
+            bufferedWriter.write(student.toString());
+            bufferedWriter.newLine();;
+        }
+
+        bufferedWriter.close();
     }
 }
 

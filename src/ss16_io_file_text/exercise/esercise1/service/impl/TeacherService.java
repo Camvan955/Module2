@@ -1,11 +1,14 @@
-package ss15_exception_debug.exercise.exercise2.esercise1.service.impl;
+package ss16_io_file_text.exercise.esercise1.service.impl;
 
-import ss15_exception_debug.exercise.exercise2.esercise1.model.Teacher;
-import ss15_exception_debug.exercise.exercise2.esercise1.service.ITeacherService;
 import ss15_exception_debug.exercise.exercise2.esercise1.service.utils.CodeException;
 import ss15_exception_debug.exercise.exercise2.esercise1.service.utils.DateException;
 import ss15_exception_debug.exercise.exercise2.esercise1.service.utils.NameException;
+import ss16_io_file_text.exercise.esercise1.model.Teacher;
+import ss16_io_file_text.exercise.esercise1.service.ITeacherService;
+import ss16_io_file_text.exercise.read_file.Country;
+import ss16_io_file_text.practice.sum_in_file_text.ReadFile;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,16 +18,20 @@ public class TeacherService<flagDelete> implements ITeacherService {
     private static List<Teacher> teacherList = new ArrayList<>();
 
     @Override
-    public void addTeacher() {
+    public void addTeacher() throws IOException {
+
+        teacherList = readFile();
         Teacher teacher = this.inforTeacher();
         teacherList.add(teacher);
         System.out.println("Thêm mới thành công!");
+        writeFile(teacherList);
     }
 
     @Override
-    public void displayTeacher() {
+    public void displayTeacher() throws IOException {
+        teacherList = readFile();
         for (Teacher teacher : teacherList) {
-            System.out.println(teacher);
+            System.out.println(teacher.info());
         }
     }
 
@@ -48,35 +55,13 @@ public class TeacherService<flagDelete> implements ITeacherService {
     }
 
     @Override
-    public void searchTeacher() {
+    public void searchTeacher() throws IOException {
+        teacherList = readFile();
+
         int choice;
         System.out.print("Nhập tùy chọn: 1: tìm theo tên giảng viên - 2: tìm theo mã giảng viên: \t");
         choice = Integer.parseInt(scanner.nextLine());
-//        if (choice == 1) {
-//            System.out.print("Nhập tên giảng viên: ");
-//            String nameTeacher = scanner.nextLine();
-//            System.out.print("Kết quả của tìm kiếm là: ");
-//            for (Teacher teacher : teacherList) {
-//                if (teacher.getName().indexOf(nameTeacher) >= 0) {
-//                    System.out.println(teacher.toString());
-//                }
-//                else {
-//                    System.out.println("Không có giảng viên phù hợp với từ khóa vừa nhập");
-//                }
-//            }
-//        } else if (choice == 2) {
-//            System.out.print("Nhập mã giảng viên: ");
-//            String codeTeacher = scanner.nextLine();
-//            System.out.println("Kết quả của tìm kiếm là: ");
-//            for (Teacher teacher : teacherList) {
-//                if (teacher.getCode().indexOf(codeTeacher) >= 0) {
-//                    System.out.println(teacher.toString());
-//                }
-//                else {
-//                    System.out.println("Không có giảng viên phù hợp với từ khóa vừa nhập");
-//                }
-//            }
-//        }
+
 
         switch (choice) {
             case 1:
@@ -106,10 +91,13 @@ public class TeacherService<flagDelete> implements ITeacherService {
             default:
                 System.out.println("Lựa chọn không nằm trong phạm vi tìm kiếm");
         }
+
     }
 
     @Override
-    public void sortTeacher() {
+    public void sortTeacher() throws IOException {
+        teacherList = readFile();
+
         if (teacherList.size() <= 0) {
             System.out.println("Danh sách không có");
         }
@@ -126,6 +114,7 @@ public class TeacherService<flagDelete> implements ITeacherService {
                 }
             }
         }
+        writeFile(teacherList);
         System.out.println("Sắp xếp thành công!");
     }
 
@@ -178,6 +167,34 @@ public class TeacherService<flagDelete> implements ITeacherService {
         Teacher teacher = new Teacher(code, name, dateOfBirth, gender, technique);
 
         return teacher;
+    }
+
+    private List<Teacher> readFile() throws IOException {
+        teacherList = new ArrayList<>();
+        File file = new File("src\\ss16_io_file_text\\exercise\\esercise1\\data\\teacher.txt");
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+
+        String line;
+        String[] teacherArrays;
+        while ((line = bufferedReader.readLine()) != null) {
+            teacherArrays = line.split(",");
+            teacherList.add(new Teacher(teacherArrays[0], teacherArrays[1], teacherArrays[2], Boolean.parseBoolean(teacherArrays[3]), teacherArrays[4]));
+        }
+        bufferedReader.close();
+
+        return teacherList;
+    }
+
+    private void writeFile(List<Teacher> teacherList) throws IOException {
+        File file = new File("src\\ss16_io_file_text\\exercise\\esercise1\\data\\teacher.txt");
+
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+
+        for (Teacher teacher : teacherList) {
+            bufferedWriter.write(teacher.info());
+            bufferedWriter.newLine();
+        }
+        bufferedWriter.close();
 
     }
 }
