@@ -1,3 +1,0 @@
-ID01,Trương Thoại Minh Đức,21/08/1999,false,Toán, 7
-ID02,Lê Đức Anh,01/01/1999,false,Lý, 8
-ID03,Phan Thị Thùy Nhung,09/10/1999,false,Văn, 7

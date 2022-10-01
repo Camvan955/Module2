@@ -1,6 +1,5 @@
 package ss17_io_binary_serialization.exercise.mvc_product_management.ultis;
 
-import ss16_io_file_text.exercise.esercise1.utils.utils.NameException;
 
 public class ManufacturerException extends Exception {
     public ManufacturerException(String message) {

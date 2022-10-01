@@ -18,16 +18,15 @@ public class Main {
             while ((line = bufferedReader.readLine()) != null) {
                 info = line.split(",");
                 country = new Country(Integer.parseInt(info[0]), info[1], info[2]);
-            countryList.add(country);
+                countryList.add(country);
             }
 
             bufferedReader.close();
 
-            for (Country country1: countryList) {
+            for (Country country1 : countryList) {
                 System.out.println(country1);
             }
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("file không tồn tại");
         } catch (IOException e) {
             e.printStackTrace();
