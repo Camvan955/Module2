@@ -164,55 +164,42 @@ public class StudentService implements IStudentService {
         return student;
     }
 
-    private double addPoint() {
-        double point;
+    private String addCode() {
+        String code;
         while (true) {
             try {
-                System.out.print("Mời bạn nhập điểm của học sinh: ");
-                point = Double.parseDouble(scanner.nextLine());
-                if (point < 0 || point > 10) {
-                    throw new CheckPointException("Nhập lại điểm");
+                System.out.print("Mời bạn nhập mã sinh viên: ");
+                code = scanner.nextLine();
+                if (!code.matches("[H][V][0-9]{3,6}")) {
+                    throw new CheckCodeException("Bạn nhập không đúng định dạng");
                 }
                 break;
-            } catch (CheckPointException | NumberFormatException e) {
+            } catch (CheckCodeException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return point;
+        return code;
     }
 
-    private String addNameClass() {
-        String nameClass;
+    private String addName() {
+        String name;
         while (true) {
             try {
-                System.out.print("Mời bạn nhập tên lớp: ");
-                nameClass = scanner.nextLine();
-                if (!nameClass.matches("[a-zA-z0-9]{7}")) {
-                    throw new CheckNameClassException("Bạn nhập không đúng định dạng");
+                System.out.print("Mời bạn nhập tên học viên: ");
+                name = scanner.nextLine();
+                String[] str = name.trim().split(" ");
+                String regex= "[A-ZĐ][a-záàảạãăắằặẵâấầẫậẩéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịùúủũụưứửữựỵỷỹýỳ ]{1,6}";
+                for (int i = 0; i < str.length; i++) {
+                    if (!str[i].matches(regex)) {
+                        throw new CheckNameException("Nhập sai định dạng");
+                    }
                 }
                 break;
-            } catch (CheckNameClassException e) {
+            } catch (CheckNameException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return nameClass;
-    }
-
-    private String addGender() {
-        String gender;
-        while (true) {
-            try {
-                System.out.print("Mời bạn nhập giới tính sinh viên: ");
-                gender = scanner.nextLine();
-                if (!gender.matches("^[a-zA-Z\\sữô]*$")) {
-                    throw new CheckGenderException("Bạn nhập không đúng định dạng");
-                }
-                break;
-            } catch (CheckGenderException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return gender;
+        return name;
     }
 
     private LocalDate addDayBirth() {
@@ -229,40 +216,55 @@ public class StudentService implements IStudentService {
         return dayOfBirth;
     }
 
-    private String addName() {
-        String name;
+    private String addGender() {
+        String gender;
         while (true) {
             try {
-                System.out.print("Mời bạn nhập tên sinh viên: ");
-                name = scanner.nextLine();
-                if (!name.matches("^[A-Z][a-zA-Z'-'\\sáàảãạăâắằấầặẵẫậéèẻ ẽẹếềểễệóòỏõọôốồổỗộ ơớờởỡợíìỉĩịđùúủũụưứ� �ửữựÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠ ƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼ� ��ỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞ ỠỢỤỨỪỬỮỰỲỴÝỶỸửữựỵ ỷỹ]{3,25}")) {
-                    throw new CheckNameException("Bạn nhập không đúng định dạng");
+                System.out.print("Mời bạn nhập giới tính sinh viên: ");
+                gender = scanner.nextLine();
+                if (!gender.matches("^[NKamhngữô]+$")) {
+                    throw new CheckGenderException("Vui lòng nhập đúng định dạng");
                 }
                 break;
-            } catch (CheckNameException e) {
+            } catch (CheckGenderException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return name;
+        return gender;
     }
 
-    private String addCode() {
-        String code;
+
+    private String addNameClass() {
+        String nameClass;
         while (true) {
             try {
-                System.out.print("Mời bạn nhập mã sinh viên: ");
-                code = scanner.nextLine();
-                if (!code.matches("[a-zA-Z0-9]{4,6}")) {
-                    throw new CheckCodeException("Bạn nhập không đúng định dạng");
+                System.out.print("Mời bạn nhập tên lớp: ");
+                nameClass = scanner.nextLine();
+                if (!nameClass.matches("^C[0-9]{4}G[0-9]$")) {
+                    throw new CheckNameClassException("Bạn nhập không đúng định dạng");
                 }
                 break;
-            } catch (CheckCodeException e) {
+            } catch (CheckNameClassException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return code;
+        return nameClass;
     }
 
-
-
+    private double addPoint() {
+        double point;
+        while (true) {
+            try {
+                System.out.print("Mời bạn nhập điểm của học sinh: ");
+                point = Double.parseDouble(scanner.nextLine());
+                if (point < 0 || point > 10) {
+                    throw new CheckPointException("Nhập lại điểm");
+                }
+                break;
+            } catch (CheckPointException | NumberFormatException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return point;
+    }
 }

@@ -52,6 +52,7 @@ public class ManagerController {
             System.out.println("4. Tìm kiếm sinh viên");
             System.out.println("5. Sắp xếp sinh viên");
             System.out.println("6. Thoát");
+            System.out.print("Lựa chọn của bạn là: ");
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
@@ -87,6 +88,7 @@ public class ManagerController {
             System.out.println("4. Tìm kiếm giảng viên");
             System.out.println("5. Sắp xếp giảng viên");
             System.out.println("6. Thoát");
+            System.out.print("Lựa chọn của bạn là: ");
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
@@ -99,7 +101,7 @@ public class ManagerController {
                     iTeacherService.displayTeacher();
                     break;
                 case 4:
-                    ManagerController.menuSearchStudent();
+                    ManagerController.menuSearchTeacher();
                     break;
                 case 5:
                     iTeacherService.sortTeacher();
@@ -142,7 +144,7 @@ public class ManagerController {
             System.out.println("Tìm kiếm giảng viên");
             System.out.println("1. Tìm kiếm giảng viên theo tên");
             System.out.println("2. Tìm kiếm giảng viên theo id");
-            System.out.println("3. Trỏ lại quản lý học sinh");
+            System.out.println("3. Trỏ lại quản lý giảng viên");
             System.out.print("Nhập lựa chọn của bạn: ");
 
 

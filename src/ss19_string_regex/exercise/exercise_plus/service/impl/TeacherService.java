@@ -60,7 +60,7 @@ public class TeacherService implements ITeacherService {
             teacher = new Teacher();
             teacher.setCode(info[0]);
             teacher.setName(info[1]);
-            teacher.setDayOfBirth(LocalDate.parse(info[2]),formatter);
+            teacher.setDayOfBirth(LocalDate.parse(info[2]), formatter);
             teacher.setGender(info[3]);
             teacher.setTechnique(info[4]);
             teacherList.add(teacher);
@@ -165,38 +165,40 @@ public class TeacherService implements ITeacherService {
         return teacher;
     }
 
-    private String addTechnique() {
-        String technique;
+
+    private String addCode() {
+        String code;
         while (true) {
             try {
-                System.out.print("Mời bạn nhập chuyên môn giảng viên: ");
-                technique = scanner.nextLine();
-                if (!technique.matches("^[a-zA-Z0-9'-'\\sáàảãạăâắằấầặẵẫậéèẻ ẽẹếềểễệóòỏõọôốồổỗộ ơớờởỡợíìỉĩịđùúủũụưứ� �ửữựÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠ ƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼ� ��ỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞ ỠỢỤỨỪỬỮỰỲỴÝỶỸửữựỵ ỷỹ]*$")) {
-                    throw new CheckTechniqueException("Bạn nhập không đúng định dạng");
+                System.out.print("Mời bạn nhập mã giảng viên : ");
+                code = scanner.nextLine();
+                if (!code.matches("[G][V][0-9]{3,6}")) {
+                    throw new CheckCodeException("Bạn nhập không đúng định dạng");
                 }
                 break;
-            } catch (CheckTechniqueException e) {
+            } catch (CheckCodeException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return technique;
+        return code;
     }
 
-    private String addGender() {
-        String gender;
+    private String addName() {
+        String name;
         while (true) {
             try {
-                System.out.print("Mời bạn nhập giới tính giảng viên: ");
-                gender = scanner.nextLine();
-                if (!gender.matches("^[a-zA-Z\\sữô]*$")) {
-                    throw new CheckGenderException("Bạn nhập không đúng định dạng");
+                System.out.print("Mời bạn nhập tên giảng viên: ");
+                name = scanner.nextLine();
+                String regex= "[A-ZĐ][a-záàảạãăắằặẵâấầẫậẩéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịùúủũụưứửữựỵỷỹýỳ ]{1,5}";
+                if (!name.matches(regex)) {
+                    throw new CheckNameException("Bạn nhập không đúng định dạng");
                 }
                 break;
-            } catch (CheckGenderException e) {
+            } catch (CheckNameException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return gender;
+        return name;
     }
 
     private LocalDate addDayBirth() {
@@ -213,37 +215,39 @@ public class TeacherService implements ITeacherService {
         return dayOfBirth;
     }
 
-    private String addName() {
-        String name;
+    private String addGender() {
+        String gender;
         while (true) {
             try {
-                System.out.print("Mời bạn nhập tên giảng viên: ");
-                name = scanner.nextLine();
-                if (!name.matches("^[A-Z][a-zA-Z'-'\\sáàảãạăâắằấầặẵẫậéèẻ ẽẹếềểễệóòỏõọôốồổỗộ ơớờởỡợíìỉĩịđùúủũụưứ� �ửữựÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠ ƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼ� ��ỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞ ỠỢỤỨỪỬỮỰỲỴÝỶỸửữựỵ ỷỹ]{3,25}")) {
-                    throw new CheckNameException("Bạn nhập không đúng định dạng");
+                System.out.print("Mời bạn nhập giới tính giảng viên: ");
+                gender = scanner.nextLine();
+                if (!gender.matches("^[NKamhngữô]+$")) {
+                    throw new CheckGenderException("Bạn nhập không đúng định dạng");
                 }
                 break;
-            } catch (CheckNameException e) {
+            } catch (CheckGenderException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return name;
+        return gender;
     }
 
-    private String addCode() {
-        String code;
+    private String addTechnique() {
+        String technique;
         while (true) {
             try {
-                System.out.print("Mời bạn nhập mã giảng viên : ");
-                code = scanner.nextLine();
-                if (!code.matches("[a-zA-Z0-9]{4,6}")) {
-                    throw new CheckCodeException("Bạn nhập không đúng định dạng");
+                System.out.print("Mời bạn nhập chuyên môn giảng viên: ");
+                technique = scanner.nextLine();
+                String regex = "^([A-ZĐ][a-záàảãạăâắằấầặẵẫêậéèẻẽẹếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+[ ])+[A-ZĐ][a-záàảãạăâắằấầặẵẫậéèẻẽẹếềểễệóòêỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+$";
+                if (!technique.matches(regex)) {
+                    throw new CheckTechniqueException("Bạn nhập không đúng định dạng");
                 }
                 break;
-            } catch (CheckCodeException e) {
+            } catch (CheckTechniqueException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return code;
+        return technique;
     }
+
 }
