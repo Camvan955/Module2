@@ -71,6 +71,7 @@ public class ManagerController {
                     iStudentService.sortStudent();
                     break;
                 case 6:
+                    ManagerController.menuManageData();
                     return;
                 default:
                     System.out.println("Lựa chọn không khả thi");
@@ -107,6 +108,7 @@ public class ManagerController {
                     iTeacherService.sortTeacher();
                     break;
                 case 6:
+                    ManagerController.menuManageData();
                     return;
                 default:
                     System.out.println("Lựa chọn không khả thi");
@@ -133,6 +135,7 @@ public class ManagerController {
                     iStudentService.searchStudentId();
                     break;
                 case 3:
+                    ManagerController.menuStudent();
                     return;
             }
         }
@@ -157,6 +160,7 @@ public class ManagerController {
                     iTeacherService.searchTeacherId();
                     break;
                 case 3:
+                    ManagerController.menuTeacher();
                     return;
             }
         }

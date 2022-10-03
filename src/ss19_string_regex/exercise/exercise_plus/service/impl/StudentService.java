@@ -187,8 +187,8 @@ public class StudentService implements IStudentService {
             try {
                 System.out.print("Mời bạn nhập tên học viên: ");
                 name = scanner.nextLine();
-                String[] str = name.trim().split(" ");
-                String regex= "[A-ZĐ][a-záàảạãăắằặẵâấầẫậẩéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịùúủũụưứửữựỵỷỹýỳ ]{1,6}";
+                String[] str = name.trim().split("");
+                String regex= "^([A-ZĐ][a-záàảãạăâắằấầặẵẫêậéèẻẽẹếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+[ ])+[A-ZĐ][a-záàảãạăâắằấầặẵẫậéèẻẽẹếềểễệóòêỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+$";
                 for (int i = 0; i < str.length; i++) {
                     if (!str[i].matches(regex)) {
                         throw new CheckNameException("Nhập sai định dạng");

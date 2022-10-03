@@ -189,7 +189,8 @@ public class TeacherService implements ITeacherService {
             try {
                 System.out.print("Mời bạn nhập tên giảng viên: ");
                 name = scanner.nextLine();
-                String regex= "[A-ZĐ][a-záàảạãăắằặẵâấầẫậẩéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịùúủũụưứửữựỵỷỹýỳ ]{1,5}";
+                String[] str = name.split("");
+                String regex= "^([A-ZĐ][a-záàảãạăâắằấầặẵẫêậéèẻẽẹếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+[ ])+[A-ZĐ][a-záàảãạăâắằấầặẵẫậéèẻẽẹếềểễệóòêỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+$";
                 if (!name.matches(regex)) {
                     throw new CheckNameException("Bạn nhập không đúng định dạng");
                 }
@@ -221,7 +222,7 @@ public class TeacherService implements ITeacherService {
             try {
                 System.out.print("Mời bạn nhập giới tính giảng viên: ");
                 gender = scanner.nextLine();
-                if (!gender.matches("^[NKamhngữô]+$")) {
+                if (!gender.matches("^[NamNữKhông]+$")) {
                     throw new CheckGenderException("Bạn nhập không đúng định dạng");
                 }
                 break;
