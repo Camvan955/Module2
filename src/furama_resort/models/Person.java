@@ -8,14 +8,14 @@ public class Person {
     private String name;
     private LocalDate dayOfBirth;
     private String gender;
-    private int identityCard;
-    private int phoneNumber;
+    private String identityCard;
+    private String phoneNumber;
     private String email;
 
     public Person() {
     }
 
-    public Person(String id, String name, LocalDate dayOfBirth, String gender, int identityCard, int phoneNumber, String email) {
+    public Person(String id, String name, LocalDate dayOfBirth, String gender, String identityCard, String phoneNumber, String email) {
         this.id = id;
         this.name = name;
         this.dayOfBirth = dayOfBirth;
@@ -57,19 +57,19 @@ public class Person {
         this.gender = gender;
     }
 
-    public int getIdentityCard() {
+    public String getIdentityCard() {
         return identityCard;
     }
 
-    public void setIdentityCard(int identityCard) {
+    public void setIdentityCard(String identityCard) {
         this.identityCard = identityCard;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

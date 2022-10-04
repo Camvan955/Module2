@@ -23,14 +23,4 @@ public class FacilityService implements IFacilityService {
     public void edit() {
 
     }
-
-    @Override
-    public void readFile() {
-
-    }
-
-    @Override
-    public void writeFile() {
-
-    }
 }

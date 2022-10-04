@@ -8,7 +8,4 @@ public interface IInterfaceService {
 
     void edit();
 
-    void readFile();
-
-    void writeFile();
 }

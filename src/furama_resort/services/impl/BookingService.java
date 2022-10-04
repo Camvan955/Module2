@@ -29,13 +29,4 @@ public class BookingService implements IBookingService {
 
     }
 
-    @Override
-    public void readFile() {
-
-    }
-
-    @Override
-    public void writeFile() {
-
-    }
 }

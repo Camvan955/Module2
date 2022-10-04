@@ -65,13 +65,13 @@ public class FuramaController {
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
-//                    IEmployeeService.displayListEmployee();
+                    iEmployeeService.displayList();
                     break;
                 case 2:
-//                    IEmployeeService.addNewEmployee();
+                    iEmployeeService.addNew();
                     break;
                 case 3:
-//                    IEmployeeService.editEmployee();
+                    iEmployeeService.edit();
                     break;
                 case 4:
                     FuramaController.displayMainMenu();
