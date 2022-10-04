@@ -2,7 +2,6 @@ package furama_resort.services.impl;
 
 import furama_resort.models.Customer;
 import furama_resort.services.ICustomerService;
-import furama_resort.utils.validata.ValidateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,8 @@ public class CustomerService implements ICustomerService {
 
 //    private Customer info() {
 //        String id = ValidateUtils.addCode();
+//        String name = ValidateUtils.addName();
+//
 //
 //    }
 }

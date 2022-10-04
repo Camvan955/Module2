@@ -8,22 +8,21 @@ import java.util.Scanner;
 
 public class FuramaController {
     private static Scanner scanner = new Scanner(System.in);
-    private static IEmployeeService iEmployeeService = (IEmployeeService) new EmployeeService();
-
+    private static IEmployeeService iEmployeeService = new EmployeeService();
 
 
     public static void displayMainMenu() {
         while (true) {
-            System.out.println("-----------RESORT FURAMA MANAGEMENT PROGRAM -----------");
-            System.out.println("Please enter the match the option");
-            System.out.println("1. Employee Management");
-            System.out.println("2. Customer Management");
-            System.out.println("3. Facility Management");
-            System.out.println("4. Booking Management");
-            System.out.println("5. Promotion Management");
-            System.out.println("6. Exit");
+            System.out.println("-----------CHƯƠNG TRÌNH QUẢN LÝ FURAMA RESORT -----------");
+            System.out.println("Nhập số tương ứng với menu để tiếp tục");
+            System.out.println("1. Quản lý nhân viên");
+            System.out.println("2. Quản lý khách hàng");
+            System.out.println("3. Quản lý cơ sở vật chất");
+            System.out.println("4. Quản lý đặt phòng");
+            System.out.println("5. Quản lý khuyến mãi");
+            System.out.println("6. Thoát");
 
-            System.out.print("Your choice: ");
+            System.out.print("Lựa chọn của bạn là: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
@@ -46,7 +45,7 @@ public class FuramaController {
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Choices out of possibility");
+                    System.out.println("Vui lòng nhập đúng số ứng với chức năng");
             }
         }
     }
@@ -54,13 +53,13 @@ public class FuramaController {
 
     public static void employeeManagement() {
         while (true) {
-            System.out.println("----------Employee Management----------");
-            System.out.println("1. Display list employees");
-            System.out.println("2. Add new employee");
-            System.out.println("3. Edit employee");
-            System.out.println("4. Return main menu");
+            System.out.println("----------Quản lý nhân viên----------");
+            System.out.println("1. Hiển thị danh sách nhân viên");
+            System.out.println("2. Thêm mới nhân viên");
+            System.out.println("3. Chỉnh sửa nhân viên ");
+            System.out.println("4. Trở về menu chính");
 
-            System.out.print("Your choice: ");
+            System.out.print("Lựa chọn của bạn là: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
@@ -77,20 +76,20 @@ public class FuramaController {
                     FuramaController.displayMainMenu();
                     break;
                 default:
-                    System.out.println("Choices out of possibility");
+                    System.out.println("Vui lòng nhập đúng số ứng với chức năng");
             }
         }
     }
 
     public static void customerManagement() {
         while (true) {
-            System.out.println("----------Employee Management----------");
-            System.out.println("1. Display list customers");
-            System.out.println("2. Add new customer");
-            System.out.println("3. Edit customer");
-            System.out.println("4. Return main menu");
+            System.out.println("----------QUẢN LÝ KHÁCH HÀNG----------");
+            System.out.println("1. Hiển thị danh sách khách hàng");
+            System.out.println("2. Thêm mới khách hàng");
+            System.out.println("3. Chỉnh sửa khách hàng");
+            System.out.println("4. Trở về menu chính");
 
-            System.out.print("Your choice: ");
+            System.out.print("Lựa chọn của bạn là: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
@@ -104,20 +103,20 @@ public class FuramaController {
                     FuramaController.displayMainMenu();
                     break;
                 default:
-                    System.out.println("Choices out of possibility");
+                    System.out.println("Vui lòng nhập đúng số ứng với chức năng");
             }
         }
     }
 
     public static void facilityManagement() {
         while (true) {
-            System.out.println("----------Facility Management----------");
-            System.out.println("1. Display list facility");
-            System.out.println("2. Add new facility");
-            System.out.println("3. Edit facility");
-            System.out.println("4. Return main menu");
+            System.out.println("----------QUẢN LÝ CƠ SỞ VẬT CHẤT----------");
+            System.out.println("1. Hiển thị danh sách cơ sở vật chất");
+            System.out.println("2. Thêm mới cơ sở vật chất");
+            System.out.println("3. Chỉnh sửa cơ sở vật chất");
+            System.out.println("4. Trở về menu chính");
 
-            System.out.print("Your choice: ");
+            System.out.print("Lựa chọn của bạn là: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
@@ -131,21 +130,21 @@ public class FuramaController {
                     FuramaController.displayMainMenu();
                     break;
                 default:
-                    System.out.println("Choices out of possibility");
+                    System.out.println("Vui lòng nhập đúng số ứng với chức năng");
             }
         }
     }
 
     public static void bookingManagement() {
         while (true) {
-            System.out.println("----------Booking Management----------");
-            System.out.println("1. Add new booking");
-            System.out.println("2. Display list booking");
-            System.out.println("3. Create new contracts");
-            System.out.println("4. Edit contracts");
-            System.out.println("5. Return main menu");
+            System.out.println("----------QUẢN LÝ ĐẶT PHÒNG----------");
+            System.out.println("1. Thêm mới đặt phòng");
+            System.out.println("2. Hiển thị danh sách đặt phòng");
+            System.out.println("3. Tạo hợp đồng mới");
+            System.out.println("4. Chỉnh sửa hợp đồng");
+            System.out.println("5. Trở về menu chính");
 
-            System.out.print("Your choice: ");
+            System.out.print("Lựa chọn của bạn là: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
@@ -161,19 +160,19 @@ public class FuramaController {
                     FuramaController.displayMainMenu();
                     break;
                 default:
-                    System.out.println("Choices out of possibility");
+                    System.out.println("Vui lòng nhập đúng số ứng với chức năng");
             }
         }
     }
 
     public static void promotionManagement() {
         while (true) {
-            System.out.println("----------Promotion Management----------");
-            System.out.println("1. Display list customers use service");
-            System.out.println("2. Display list customers get voucher");
-            System.out.println("3. Return main menu");
+            System.out.println("----------QUẢN LÝ KHUYẾN MÃI----------");
+            System.out.println("1. Hiển thị danh sách khách hàng sử dụng dịch vụ");
+            System.out.println("2.Hiển thị danh sách khách hàng nhận được voucher");
+            System.out.println("3.Trở về menu chính");
 
-            System.out.print("Your choice: ");
+            System.out.print("Lựa chọn của bạn là: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
@@ -185,7 +184,7 @@ public class FuramaController {
                     FuramaController.displayMainMenu();
                     break;
                 default:
-                    System.out.println("Choices out of possibility");
+                    System.out.println("Vui lòng nhập đúng số ứng với chức năng");
             }
         }
     }
