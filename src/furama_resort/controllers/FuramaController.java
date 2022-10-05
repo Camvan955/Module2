@@ -1,16 +1,20 @@
 package furama_resort.controllers;
 
 
+import furama_resort.services.ICustomerService;
 import furama_resort.services.IEmployeeService;
+import furama_resort.services.IFacilityService;
+import furama_resort.services.impl.CustomerService;
 import furama_resort.services.impl.EmployeeService;
+import furama_resort.services.impl.FacilityService;
 
 import java.util.Scanner;
 
 public class FuramaController {
     private static Scanner scanner = new Scanner(System.in);
     private static IEmployeeService iEmployeeService = new EmployeeService();
-
-
+    private static ICustomerService iCustomerService = new CustomerService();
+    private static IFacilityService iFacilityService = new FacilityService();
     public static void displayMainMenu() {
         while (true) {
             System.out.println("-----------CHƯƠNG TRÌNH QUẢN LÝ FURAMA RESORT -----------");
@@ -94,10 +98,13 @@ public class FuramaController {
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
+                    iCustomerService.displayList();
                     break;
                 case 2:
+                    iCustomerService.addNew();
                     break;
                 case 3:
+                    iCustomerService.edit();
                     break;
                 case 4:
                     FuramaController.displayMainMenu();
@@ -121,13 +128,15 @@ public class FuramaController {
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
+                    iFacilityService.displayList();
                     break;
                 case 2:
+                    iFacilityService.addNew();
                     break;
                 case 3:
                     break;
                 case 4:
-                    FuramaController.displayMainMenu();
+                    FuramaController.facilityManagement();
                     break;
                 default:
                     System.out.println("Vui lòng nhập đúng số ứng với chức năng");

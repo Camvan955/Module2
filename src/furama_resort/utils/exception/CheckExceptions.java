@@ -12,6 +12,38 @@ public class CheckExceptions extends Exception {
     }
 
 
+    public static boolean codeEmployeeCheck(String code) {
+        try {
+            String regex = "^[N][V][0-9]{3,6}$";
+            if (!code.matches(regex)) {
+                throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
+            }
+            return true;
+        } catch (CheckExceptions e) {
+            System.out.println(e.getMessage());
+            return false;
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean codeCustomerCheck(String code) {
+        try {
+            String regex = "^[K][H][0-9]{3,6}$";
+            if (!code.matches(regex)) {
+                throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
+            }
+            return true;
+        } catch (CheckExceptions e) {
+            System.out.println(e.getMessage());
+            return false;
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
     public static boolean nameCheck(String name) {
         try {
             String regex = "^([A-ZĐ][a-záàảãạăâắằấầặẵẫêậẩéèẻẽẹếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+[ ])+[A-ZĐ][a-záàảãạăâắằấầặẵẫậéèẻẽẹếềểễệóòêỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+$";
@@ -26,22 +58,9 @@ public class CheckExceptions extends Exception {
         }
     }
 
-    public static boolean codeCheck(String code) {
-        try {
-            String regex = "^[N][V][0-9]{3,6}$";
-            if (!code.matches(regex)) {
-                throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
-            }
-            return true;
-        } catch (CheckExceptions e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
-
     public static boolean genderCheck(String gender) {
         try {
-            String regex = "^[NKamhngữô]+$";
+            String regex = "^(Nam|Nữ|Giới tính khác|nam|nữ|giới tính khác)+$";
             if (!gender.matches(regex)) {
                 throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
             }
@@ -66,43 +85,100 @@ public class CheckExceptions extends Exception {
     }
 
     public static boolean phoneNumberCheck(String phoneNumber) {
-            try {
-                String regex = "^[0][0-9]{9}$";
-                if (!phoneNumber.matches(regex)) {
-                    throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
-                }
-            return true;
-            } catch (CheckExceptions e) {
-                System.out.println(e.getMessage());
-                return false;
+        try {
+            String regex = "^[0][0-9]{9}$";
+            if (!phoneNumber.matches(regex)) {
+                throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
             }
+            return true;
+        } catch (CheckExceptions e) {
+            System.out.println(e.getMessage());
+            return false;
         }
+    }
 
     public static boolean emailCheck(String email) {
-            try {
-               String regex = "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)$";
-                if (!email.matches(regex)) {
-                    throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
-                }
-                return true;
-            } catch (CheckExceptions e) {
-                System.out.println(e.getMessage());
-                return false;
+        try {
+            String regex = "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)$";
+            if (!email.matches(regex)) {
+                throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
             }
+            return true;
+        } catch (CheckExceptions e) {
+            System.out.println(e.getMessage());
+            return false;
         }
+    }
 
     public static boolean salaryCheck(Double salary) {
-            try {
-                if (salary <= 0) {
-                    throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
-                }
-                return true;
-            } catch (CheckExceptions e) {
-                System.out.println(e.getMessage());
-                return false;
+        try {
+            if (salary <= 0) {
+                throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
+            }
+            return true;
+        } catch (CheckExceptions e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+
+    public static void levelCheck(int choice) throws CheckExceptions {
+        int[] arr = new int[]{1, 2, 3, 4};
+        boolean flag = true;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == choice) {
+                flag = false;
+                break;
             }
         }
-
+        if (false) {
+            throw new CheckExceptions("Ngoài phạm vi lựa chọn 1 -4 || " + choice);
+        }
     }
+
+    public static void locationCheck(int choice) throws CheckExceptions {
+        int[] arr = new int[]{1, 2, 3, 4, 5, 6};
+        boolean flag = true;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == choice) {
+                flag = false;
+                break;
+            }
+        }
+        if (false) {
+            throw new CheckExceptions("Ngoài phạm vi lựa chọn 1 -6 || " + choice);
+        }
+    }
+
+    public static void typeOfGuestCheck(int choice) throws CheckExceptions {
+        int[] arr = new int[]{1, 2, 3, 4, 5};
+        boolean check = true;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == choice) {
+                check = false;
+                break;
+            }
+            if (false) {
+                throw new CheckExceptions("Ngoài phạm vi lựa chọn 1 - 5 || " + choice);
+            }
+        }
+    }
+
+    public static void addNewCheck(int choice) throws CheckExceptions {
+        int[] arr = new int[]{1, 2, 3, 4};
+        boolean check = true;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == choice) {
+                check = false;
+                break;
+            }
+            if (false) {
+                throw new CheckExceptions("Ngoài phạm vi lựa chọn 1 - 5 || " + choice);
+            }
+        }
+    }
+
+}
 
 

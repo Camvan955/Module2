@@ -14,15 +14,21 @@ import java.util.Scanner;
 public class EmployeeService implements IEmployeeService {
     private static List<Employee> employeeList = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 
     @Override
     public void displayList() {
 
+        if (employeeList.size() == 0) {
+            System.out.println("Không có danh sách nhân viên để hiển thị!");
+        } else {
+        }
         for (Employee employee : employeeList) {
             System.out.println(employee);
         }
     }
+
 
     @Override
     public void addNew() {
@@ -33,6 +39,8 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public void edit() {
+        System.out.println();
+
         System.out.print("Nhập mã khách hàng cần chỉnh sửa: ");
         String code = scanner.nextLine();
 
@@ -48,7 +56,6 @@ public class EmployeeService implements IEmployeeService {
         if (isCode) {
             System.out.println("Không tìm thấy khách hàng với mã vừa nhập!");
         }
-
     }
 
 
@@ -57,7 +64,7 @@ public class EmployeeService implements IEmployeeService {
         String name = addName();
         LocalDate dayOfBirth = addDayBirth();
         String gender = addGender();
-        String identityCard =addidentityCard();
+        String identityCard = addidentityCard();
         String phoneNumber = addphoneNumber();
         String email = addEmail();
         String level = addLevel();
@@ -75,7 +82,7 @@ public class EmployeeService implements IEmployeeService {
             try {
                 System.out.print("Nhập mã nhân viên: ");
                 code = scanner.nextLine();
-                if (CheckExceptions.codeCheck(code)) {
+                if (CheckExceptions.codeEmployeeCheck(code)) {
                     return code;
                 }
             } catch (Exception e) {
@@ -85,7 +92,6 @@ public class EmployeeService implements IEmployeeService {
     }
 
     public LocalDate addDayBirth() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dayOfBirth;
         while (true) {
             try {
@@ -144,13 +150,13 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
-    public  String addphoneNumber() {
+    public String addphoneNumber() {
         String phoneNumber;
-        while(true) {
-            try{
+        while (true) {
+            try {
                 System.out.print("Nhập số điện thoại của nhân viên: ");
                 phoneNumber = scanner.nextLine();
-                if(CheckExceptions.phoneNumberCheck(phoneNumber)) {
+                if (CheckExceptions.phoneNumberCheck(phoneNumber)) {
                     return phoneNumber;
                 }
             } catch (Exception e) {
@@ -161,11 +167,11 @@ public class EmployeeService implements IEmployeeService {
 
     public String addEmail() {
         String email;
-        while (true){
-            try{
+        while (true) {
+            try {
                 System.out.print("Nhập email của nhân viên: ");
-                email= scanner.nextLine();
-                if(CheckExceptions.emailCheck(email)) {
+                email = scanner.nextLine();
+                if (CheckExceptions.emailCheck(email)) {
                     return email;
                 }
             } catch (Exception e) {
@@ -176,33 +182,35 @@ public class EmployeeService implements IEmployeeService {
 
 
     public static String addLevel() {
-        String level = "";
         int choice;
         System.out.println("Nhập trình độ của nhân viên bao gồm: ");
         System.out.println("1.Trung cấp");
         System.out.println("2. Cao đẳng");
         System.out.println("3. Đại học");
         System.out.println("4.Sau đại học");
-        System.out.print("Nhập lựa chọn của bạn: ");
 
-        choice = Integer.parseInt(scanner.nextLine());
-        switch (choice) {
-            case 1:
-                return "Trung cấp";
-            case 2:
-                return "Cao đẳng";
-            case 3:
-                return "Đại học";
-            case 4:
-                return "Sau đại học";
-            default:
-                System.out.println("Không đúng định dạng, mời nhập lại");
+        while (true) {
+            try {
+                System.out.print("Nhập lựa chọn của bạn: ");
+                choice =Integer.parseInt(scanner.nextLine());
+                CheckExceptions.levelCheck(choice);
+                switch (choice) {
+                    case 1:
+                        return "Trung cấp";
+                    case 2:
+                        return "Cao đẳng";
+                    case 3:
+                        return "Đại học";
+                    case 4:
+                        return "Sau đại học";
+                }
+            }catch (CheckExceptions | NumberFormatException e){
+                System.out.println(e.getMessage());
+            }
         }
-        return level;
     }
 
     public static String addLocation() {
-        String location = "";
         int choice;
         System.out.println("Nhập vị trí của nhân viên bao gồm: ");
         System.out.println("1. Lễ tân");
@@ -212,32 +220,30 @@ public class EmployeeService implements IEmployeeService {
         System.out.println("5. Quản lý");
         System.out.println("6. Giám đốc");
 
-        System.out.print("Nhập lựa chọn của bạn: ");
-        choice = Integer.parseInt(scanner.nextLine());
+        while (true) {
+            try {
+                System.out.print("Nhập lựa chọn của bạn: ");
+                choice = Integer.parseInt(scanner.nextLine());
 
-        switch (choice) {
-            case 1:
-                location = "Lễ tân";
-                break;
-            case 2:
-                location = "Phục vụ";
-                break;
-            case 3:
-                location = "Chuyên viên";
-                break;
-            case 4:
-                location = "Giám sát";
-                break;
-            case 5:
-                location = "Quản lý";
-                break;
-            case 6:
-                location = "Giám đốc";
-                break;
-            default:
-                System.out.println("Không đúng định dạng, mời nhập lại");
+                CheckExceptions.locationCheck(choice);
+                switch (choice) {
+                    case 1:
+                        return "Lễ tân";
+                    case 2:
+                        return "Phục vụ";
+                    case 3:
+                        return  "Chuyên viên";
+                    case 4:
+                        return "Giám sát";
+                    case 5:
+                        return  "Quản lý";
+                    case 6:
+                        return  "Giám đốc";
+                }
+            } catch (CheckExceptions | NumberFormatException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        return location;
     }
 
     public Double addSalary() {
@@ -246,7 +252,7 @@ public class EmployeeService implements IEmployeeService {
             try {
                 System.out.print("Nhập lương của nhân viên: ");
                 salary = Double.parseDouble(scanner.nextLine());
-                if(CheckExceptions.salaryCheck(salary)) {
+                if (CheckExceptions.salaryCheck(salary)) {
                     return salary;
                 }
             } catch (NumberFormatException e) {
