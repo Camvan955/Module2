@@ -1,6 +1,7 @@
 package furama_resort.models;
 
 public abstract class Facility {
+    private String codeService;
     private String nameService;
     private Double useArea;     //diện tích sử dụng
     private Double rentalCost; // chi phí thuê
@@ -10,7 +11,8 @@ public abstract class Facility {
     public Facility() {
     }
 
-    public Facility(String nameService, Double useArea, Double rentalCost, int maxPerson, String typeOfRental) {
+    public Facility(String codeService,String nameService,Double useArea, Double rentalCost, int maxPerson, String typeOfRental) {
+        this.codeService = codeService;
         this.nameService = nameService;
         this.useArea = useArea;
         this.rentalCost = rentalCost;
@@ -24,6 +26,14 @@ public abstract class Facility {
 
     public void setNameService(String nameService) {
         this.nameService = nameService;
+    }
+
+    public String getCodeService() {
+        return codeService;
+    }
+
+    public void setCodeService(String codeService) {
+        this.codeService = codeService;
     }
 
     public Double getUseArea() {
@@ -61,7 +71,8 @@ public abstract class Facility {
     @Override
     public String toString() {
         return "Facility{" +
-                "nameService='" + nameService + '\'' +
+                "codeService='"+codeService +
+                "nameService='"+nameService +
                 ", useArea=" + useArea +
                 ", rentalCost=" + rentalCost +
                 ", maxPerson=" + maxPerson +

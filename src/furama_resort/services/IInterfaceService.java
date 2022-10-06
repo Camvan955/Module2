@@ -1,10 +1,12 @@
 package furama_resort.services;
 
+import java.io.IOException;
+
 public interface IInterfaceService {
 
-    void displayList();
+    void displayList() throws IOException;
 
-    void addNew();
+    void addNew() throws IOException;
 
     void edit();
 

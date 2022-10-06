@@ -1,11 +1,13 @@
 package furama_resort.utils.exception;
 
+import furama_resort.models.Customer;
+import furama_resort.models.Employee;
+import furama_resort.services.impl.CustomerService;
+import furama_resort.services.impl.EmployeeService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CheckExceptions extends Exception {
-    public static List<String> stringList = new ArrayList<>();
 
     public CheckExceptions(String mesage) {
         super(mesage);
@@ -13,10 +15,17 @@ public class CheckExceptions extends Exception {
 
 
     public static boolean codeEmployeeCheck(String code) {
+        List<Employee> employeeList = EmployeeService.readFileEmployee();
         try {
-            String regex = "^[N][V][0-9]{3,6}$";
+            String regex = "^NV[0-9]{3,6}$";
             if (!code.matches(regex)) {
                 throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
+            }
+            for (int i = 0; i <employeeList.size() ; i++) {
+
+                if(employeeList.get(i).getId().equals(code)){
+                    throw new CheckExceptions("Mã nhân viên trùng lặp, vui lòng nhập lại!");
+                }
             }
             return true;
         } catch (CheckExceptions e) {
@@ -30,9 +39,15 @@ public class CheckExceptions extends Exception {
 
     public static boolean codeCustomerCheck(String code) {
         try {
-            String regex = "^[K][H][0-9]{3,6}$";
+            List<Customer> customerList = CustomerService.readCustomerFile();
+            String regex = "^KH[0-9]{3,6}$";
             if (!code.matches(regex)) {
                 throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
+            }
+            for (int i = 0; i <customerList.size(); i++) {
+                if(customerList.get(i).getId().equals(code)) {
+                    throw new CheckExceptions("Mã khách hàng trùng lặp, vui lòng nhập lại!");
+                }
             }
             return true;
         } catch (CheckExceptions e) {
@@ -40,10 +55,8 @@ public class CheckExceptions extends Exception {
             return false;
         } catch (NumberFormatException e) {
             System.out.println(e.getMessage());
-            return false;
-        }
+        }  return false;
     }
-
     public static boolean nameCheck(String name) {
         try {
             String regex = "^([A-ZĐ][a-záàảãạăâắằấầặẵẫêậẩéèẻẽẹếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+[ ])+[A-ZĐ][a-záàảãạăâắằấầặẵẫậéèẻẽẹếềểễệóòêỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+$";
@@ -72,10 +85,23 @@ public class CheckExceptions extends Exception {
     }
 
     public static boolean idCardCheck(String addidentityCard) {
+
         try {
+            List<Customer> customerList = CustomerService.readCustomerFile();
+            List<Employee> employeeList = EmployeeService.readFileEmployee();
             String regex = "^[0-9]{9}$";
             if (!addidentityCard.matches(regex)) {
                 throw new CheckExceptions("Không đúng định dạng, mời nhập lại");
+            }
+            for (int i = 0; i <customerList.size() ; i++) {
+                if(customerList.get(i).getIdentityCard().equals(addidentityCard)){
+                    throw new CheckExceptions("CCCD khách hàng trùng lặp, mời nhập lại!");
+                }
+            }
+            for (int i = 0; i <employeeList.size() ; i++) {
+                if(employeeList.get(i).getIdentityCard().equals(addidentityCard)) {
+                    throw new CheckExceptions("CCCD nhân viên trùng lặp, mời nhập lại!");
+                }
             }
             return true;
         } catch (CheckExceptions e) {

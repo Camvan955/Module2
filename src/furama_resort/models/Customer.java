@@ -38,9 +38,13 @@ public class Customer extends Person {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "typeOfGuest='" + typeOfGuest + '\'' +
-                ", addres='" + address + '\'' +super.toString()+
+        return "Customer{" +super.toString()+
+                " typeOfGuest='" + typeOfGuest +
+                ", addres='" + address+
                 '}';
+    }
+
+    public String getCustomerInfo() {
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s",getId(),getName(),getDayOfBirth(),getGender(),getIdentityCard(),getPhoneNumber(),getEmail(),getTypeOfGuest(),getAddress());
     }
 }

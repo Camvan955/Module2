@@ -4,6 +4,7 @@ import furama_resort.models.Customer;
 import furama_resort.services.ICustomerService;
 import furama_resort.utils.exception.CheckExceptions;
 
+import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,29 +13,32 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CustomerService implements ICustomerService {
+    public static final String CUSTOMER_FILE = "src\\furama_resort\\data\\customer.csv";
     private static List<Customer> customerList = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 
     @Override
-    public void displayList() {
+    public void displayList() throws IOException {
+        customerList = readCustomerFile();
         if (customerList.size() == 0) {
             System.out.println("Không có danh sách khách hàng để hiển thị!");
         } else {
             for (Customer customer : customerList) {
-                System.out.println(customer);
+                System.out.println(customer.toString());
             }
-
         }
     }
 
     @Override
-    public void addNew() {
+    public void addNew() throws IOException {
 
+        customerList = readCustomerFile();
         Customer customer = this.info();
         customerList.add(customer);
         System.out.println("Thêm mới thành công!");
+        writeCustomerFile(customerList);
     }
 
     @Override
@@ -76,7 +80,7 @@ public class CustomerService implements ICustomerService {
         LocalDate dayOfBirth;
         while (true) {
             try {
-                System.out.print("Ngày ngày sinh của khách hàng: ");
+                System.out.print("Nhập ngày sinh của khách hàng: ");
                 dayOfBirth = LocalDate.parse(scanner.nextLine(), formatter);
                 break;
             } catch (DateTimeException e) {
@@ -200,5 +204,54 @@ public class CustomerService implements ICustomerService {
         address = scanner.nextLine();
 
         return address;
+    }
+
+    public static List<Customer> readCustomerFile() {
+        List<Customer> customerList = new ArrayList<>();
+        BufferedReader bufferedReader = null;
+        try {
+
+            File file = new File(CUSTOMER_FILE);
+            FileReader fileReader = new FileReader(file);
+            bufferedReader = new BufferedReader(fileReader);
+            String line = "";
+            String[] arr;
+            while ((line = bufferedReader.readLine()) != null) {
+                arr = line.split(",");
+                customerList.add(new Customer(arr[0], arr[1], LocalDate.parse(arr[2]), arr[3], arr[4], arr[5], arr[6], arr[7], arr[8]));
+            }
+            bufferedReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File không tồn tại");
+        } catch (IOException e) {
+            System.out.println("Không đọc được file");
+        }
+
+        return customerList;
+    }
+
+    public void writeCustomerFile(List<Customer> customerList) {
+        File file = new File(CUSTOMER_FILE);
+        BufferedWriter bufferedWriter = null;
+
+        try {
+            bufferedWriter = new BufferedWriter(new FileWriter(file));
+            for (Customer customer : customerList) {
+                bufferedWriter.write(customer.getCustomerInfo());
+                bufferedWriter.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Không mở được file");
+        }
+        try {
+            bufferedWriter.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            bufferedWriter.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

@@ -4,6 +4,7 @@ import furama_resort.models.Employee;
 import furama_resort.services.IEmployeeService;
 import furama_resort.utils.exception.CheckExceptions;
 
+import java.io.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class EmployeeService implements IEmployeeService {
+    public static final String EMPLOYEE_FILE = "src\\furama_resort\\data\\employee.csv";
     private static List<Employee> employeeList = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -19,27 +21,31 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public void displayList() {
+        employeeList = readFileEmployee();
 
         if (employeeList.size() == 0) {
             System.out.println("Không có danh sách nhân viên để hiển thị!");
-        } else {
         }
         for (Employee employee : employeeList) {
-            System.out.println(employee);
+            System.out.println(employee.toString());
         }
     }
 
-
     @Override
     public void addNew() {
-        Employee employee = this.info();
+        employeeList = readFileEmployee();
+
+        Employee employee = this.infoEmployee();
         employeeList.add(employee);
+
+        writeEmployeeFile(employeeList);
+
         System.out.println("Thêm mới thành công!");
     }
 
     @Override
     public void edit() {
-        System.out.println();
+        employeeList = readFileEmployee();
 
         System.out.print("Nhập mã khách hàng cần chỉnh sửa: ");
         String code = scanner.nextLine();
@@ -47,19 +53,22 @@ public class EmployeeService implements IEmployeeService {
         boolean isCode = true;
         for (int i = 0; i < employeeList.size(); i++) {
             if (employeeList.get(i).getId().equals(code)) {
-                Employee employee = this.info();
+                Employee employee = this.infoEmployee();
                 employeeList.set(i, employee);
                 isCode = false;
+                System.out.println("Chỉnh sửa nhân viên thành công!");
                 break;
             }
         }
         if (isCode) {
             System.out.println("Không tìm thấy khách hàng với mã vừa nhập!");
         }
+
+        writeEmployeeFile(employeeList);
+
     }
 
-
-    private Employee info() {
+    private Employee infoEmployee() {
         String id = addCode();
         String name = addName();
         LocalDate dayOfBirth = addDayBirth();
@@ -192,7 +201,7 @@ public class EmployeeService implements IEmployeeService {
         while (true) {
             try {
                 System.out.print("Nhập lựa chọn của bạn: ");
-                choice =Integer.parseInt(scanner.nextLine());
+                choice = Integer.parseInt(scanner.nextLine());
                 CheckExceptions.levelCheck(choice);
                 switch (choice) {
                     case 1:
@@ -204,7 +213,7 @@ public class EmployeeService implements IEmployeeService {
                     case 4:
                         return "Sau đại học";
                 }
-            }catch (CheckExceptions | NumberFormatException e){
+            } catch (CheckExceptions | NumberFormatException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -232,13 +241,13 @@ public class EmployeeService implements IEmployeeService {
                     case 2:
                         return "Phục vụ";
                     case 3:
-                        return  "Chuyên viên";
+                        return "Chuyên viên";
                     case 4:
                         return "Giám sát";
                     case 5:
-                        return  "Quản lý";
+                        return "Quản lý";
                     case 6:
-                        return  "Giám đốc";
+                        return "Giám đốc";
                 }
             } catch (CheckExceptions | NumberFormatException e) {
                 System.out.println(e.getMessage());
@@ -259,6 +268,48 @@ public class EmployeeService implements IEmployeeService {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    public static List<Employee> readFileEmployee() {
+        employeeList = new ArrayList<>();
+        BufferedReader bufferedReader = null;
+        try {
+            File file = new File("src\\furama_resort\\data\\employee.csv");
+            FileReader fileReader = new FileReader(file);
+            bufferedReader = new BufferedReader(fileReader);
+            String line = "";
+            String[] arr;
+            while ((line = bufferedReader.readLine()) != null) {
+                arr = line.split(",");
+                employeeList.add(new Employee(arr[0], arr[1], LocalDate.parse(arr[2]), arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], Double.parseDouble(arr[9])));
+            }
+            bufferedReader.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File không tồn tại");
+        } catch (IOException e) {
+            System.out.println("Không đọc được file!");
+        }
+        return employeeList;
+    }
+
+    public void writeEmployeeFile(List<Employee> employeeList) {
+        File file = new File(EMPLOYEE_FILE);
+        BufferedWriter bufferedWriter = null;
+
+        try {
+            bufferedWriter = new BufferedWriter(new FileWriter(file));
+            for (Employee employee : employeeList) {
+                bufferedWriter.write(employee.getEmployeeInfo());
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.close();
+
+        } catch (IOException e) {
+            System.out.println("Không mở được file");
+        }
+
+
     }
 }
 

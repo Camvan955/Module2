@@ -4,6 +4,7 @@ import furama_resort.services.IBookingService;
 
 public class BookingService implements IBookingService {
 
+
     @Override
     public void createNewContracts() {
 

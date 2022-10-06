@@ -8,6 +8,7 @@ import furama_resort.services.impl.CustomerService;
 import furama_resort.services.impl.EmployeeService;
 import furama_resort.services.impl.FacilityService;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class FuramaController {
@@ -15,7 +16,7 @@ public class FuramaController {
     private static IEmployeeService iEmployeeService = new EmployeeService();
     private static ICustomerService iCustomerService = new CustomerService();
     private static IFacilityService iFacilityService = new FacilityService();
-    public static void displayMainMenu() {
+    public static void displayMainMenu() throws IOException {
         while (true) {
             System.out.println("-----------CHƯƠNG TRÌNH QUẢN LÝ FURAMA RESORT -----------");
             System.out.println("Nhập số tương ứng với menu để tiếp tục");
@@ -55,7 +56,7 @@ public class FuramaController {
     }
 
 
-    public static void employeeManagement() {
+    public static void employeeManagement() throws IOException {
         while (true) {
             System.out.println("----------Quản lý nhân viên----------");
             System.out.println("1. Hiển thị danh sách nhân viên");
@@ -85,7 +86,7 @@ public class FuramaController {
         }
     }
 
-    public static void customerManagement() {
+    public static void customerManagement() throws IOException {
         while (true) {
             System.out.println("----------QUẢN LÝ KHÁCH HÀNG----------");
             System.out.println("1. Hiển thị danh sách khách hàng");
@@ -115,7 +116,7 @@ public class FuramaController {
         }
     }
 
-    public static void facilityManagement() {
+    public static void facilityManagement() throws IOException {
         while (true) {
             System.out.println("----------QUẢN LÝ CƠ SỞ VẬT CHẤT----------");
             System.out.println("1. Hiển thị danh sách cơ sở vật chất");
@@ -136,7 +137,7 @@ public class FuramaController {
                 case 3:
                     break;
                 case 4:
-                    FuramaController.facilityManagement();
+                    FuramaController.displayMainMenu();
                     break;
                 default:
                     System.out.println("Vui lòng nhập đúng số ứng với chức năng");
@@ -144,7 +145,7 @@ public class FuramaController {
         }
     }
 
-    public static void bookingManagement() {
+    public static void bookingManagement() throws IOException {
         while (true) {
             System.out.println("----------QUẢN LÝ ĐẶT PHÒNG----------");
             System.out.println("1. Thêm mới đặt phòng");
@@ -174,7 +175,7 @@ public class FuramaController {
         }
     }
 
-    public static void promotionManagement() {
+    public static void promotionManagement() throws IOException {
         while (true) {
             System.out.println("----------QUẢN LÝ KHUYẾN MÃI----------");
             System.out.println("1. Hiển thị danh sách khách hàng sử dụng dịch vụ");
