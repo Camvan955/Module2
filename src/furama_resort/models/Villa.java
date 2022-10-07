@@ -55,7 +55,7 @@ public class Villa extends Facility{
     }
 
     public String getVillaInfo(){
-        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s",getUseArea(),getNameService(),getRentalCost(),getMaxPerson(),getTypeOfRental(),getRoomStandard(),getSwimmingPoolAarea(),getNumberOfFloors());
+        return String.format("%s,%s,%0.1f,%0.1f,%s,%s,%0.1f,%s",getCodeService(),getNameService(),getUseArea(),getRentalCost(),getMaxPerson(),getTypeOfRental(),getRoomStandard(),getSwimmingPoolAarea(),getNumberOfFloors());
     }
 
 }

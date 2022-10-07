@@ -5,8 +5,8 @@ import furama_resort.models.House;
 import furama_resort.models.Room;
 import furama_resort.models.Villa;
 import furama_resort.services.IFacilityService;
-import furama_resort.utils.exception.CheckExceptions;
-import furama_resort.utils.exception.FacilityException;
+import furama_resort.utils.exception.CheckExceptionsUtils;
+import furama_resort.utils.exception.FacilityExceptionUtils;
 
 import java.io.*;
 import java.util.*;
@@ -70,14 +70,14 @@ public class FacilityService implements IFacilityService {
                         writeRoomFile(roomList);
                         break;
                     case 4:
-                        FuramaController.displayMainMenu();
+                        FuramaController.facilityManagement();
                         break;
                     default:
                         System.out.println("Số nhập vào không khả thi!");
                 }
 
-                CheckExceptions.addNewCheck(choice);
-            } catch (CheckExceptions | NumberFormatException | IOException e) {
+                CheckExceptionsUtils.addNewCheck(choice);
+            } catch (CheckExceptionsUtils | NumberFormatException | IOException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -114,7 +114,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập mã dịch vụ của Villa: ");
                 code = scanner.nextLine();
-                if(FacilityException.codeVillaCheck(code)) {
+                if(FacilityExceptionUtils.codeVillaCheck(code)) {
                     return code;
                 }
             } catch (Exception e) {
@@ -129,7 +129,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập tên dịch vụ của Villa - Tên dịch vụ phải viết hoa ký tự đầu, các ký tự sau là ký tự bình thường: ");
                 name = scanner.nextLine();
-                if(FacilityException.nameServiceCheck(name)){
+                if(FacilityExceptionUtils.nameServiceCheck(name)){
                     return name;
                 }
             } catch (Exception e) {
@@ -144,7 +144,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập diện tích sử dụng của Villa - Diện tích sử dụng phải là số thực lớn hơn 30m2: ");
                 araeUse = Double.parseDouble(scanner.nextLine());
-                if(FacilityException.areaUseCheck(araeUse)){
+                if(FacilityExceptionUtils.areaUseCheck(araeUse)){
                     return araeUse;
                 }
             } catch (NumberFormatException e) {
@@ -159,7 +159,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập chi phí thuê của Villa - Chi phí thuê phải là số dương: ");
                 rentalCost =Double.parseDouble(scanner.nextLine());
-                if (FacilityException.rentalCoatCheck(rentalCost)){
+                if (FacilityExceptionUtils.rentalCoatCheck(rentalCost)){
                     return rentalCost;
                 }
             } catch (NumberFormatException e) {
@@ -174,7 +174,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Số lượng người tối đa của Villa - Số lượng người tối đa phải phải lớn hơn 0 và nhỏ hơn 20: ");
                 maxPerson = Integer.parseInt(scanner.nextLine());
-                if(FacilityException.maxPersonCheck(maxPerson)){
+                if(FacilityExceptionUtils.maxPersonCheck(maxPerson)){
                     return maxPerson;
                 }
             } catch (NumberFormatException e) {
@@ -189,7 +189,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập kiểu thuê của Villa: ");
                 typeOfRental = scanner.nextLine();
-                if(FacilityException.typeOfRentalCheck(typeOfRental)) {
+                if(FacilityExceptionUtils.typeOfRentalCheck(typeOfRental)) {
                     return typeOfRental;
                 }
             } catch (Exception e) {
@@ -202,9 +202,9 @@ public class FacilityService implements IFacilityService {
         String roomStandard;
         while (true) {
             try {
-                System.out.println("Nhập tiêu chuẩn phòng của Villa: ");
+                System.out.print("Nhập tiêu chuẩn phòng của Villa: ");
                 roomStandard = scanner.nextLine();
-                if(FacilityException.roomStandardCheck(roomStandard)){
+                if(FacilityExceptionUtils.roomStandardCheck(roomStandard)){
                     return roomStandard;
                 }
             } catch (Exception e) {
@@ -217,9 +217,9 @@ public class FacilityService implements IFacilityService {
         Double swimmingPoolAarea;
         while (true) {
             try {
-                System.out.println("Nhập diện tích hồ bơi của Villa - diện tích hồ bơi phải là số thực lớn hơn 30m2: ");
+                System.out.print("Nhập diện tích hồ bơi của Villa - diện tích hồ bơi phải là số thực lớn hơn 30m2: ");
                 swimmingPoolAarea = Double.parseDouble(scanner.nextLine());
-                if(FacilityException.swimmingPoolAareaCheck(swimmingPoolAarea)){
+                if(FacilityExceptionUtils.swimmingPoolAareaCheck(swimmingPoolAarea)){
                     return swimmingPoolAarea;
                 }
             } catch (NumberFormatException e) {
@@ -232,9 +232,9 @@ public class FacilityService implements IFacilityService {
         int numberOfFloors;
         while(true) {
             try {
-                System.out.println("Nhập số tầng của Villa: ");
+                System.out.print("Nhập số tầng của Villa: ");
                 numberOfFloors = Integer.parseInt(scanner.nextLine());
-                if(FacilityException.numberOfFloorsCheck(numberOfFloors)) {
+                if(FacilityExceptionUtils.numberOfFloorsCheck(numberOfFloors)) {
                     return numberOfFloors;
                 }
             } catch (NumberFormatException e) {
@@ -265,7 +265,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập mã dịch vụ của House: ");
                 code = scanner.nextLine();
-                if(FacilityException.codeHouseCheck(code)) {
+                if(FacilityExceptionUtils.codeHouseCheck(code)) {
                     return code;
                 }
             } catch (Exception e) {
@@ -280,7 +280,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập tên dịch vụ của House - Tên dịch vụ phải viết hoa ký tự đầu, các ký tự sau là ký tự bình thường: ");
                 name = scanner.nextLine();
-                if(FacilityException.nameServiceCheck(name)){
+                if(FacilityExceptionUtils.nameServiceCheck(name)){
                     return name;
                 }
             } catch (Exception e) {
@@ -295,7 +295,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập diện tích sử dụng của House - Diện tích sử dụng phải là số thực lớn hơn 30m2: ");
                 araeUse = Double.parseDouble(scanner.nextLine());
-                if(FacilityException.areaUseCheck(araeUse)){
+                if(FacilityExceptionUtils.areaUseCheck(araeUse)){
                     return araeUse;
                 }
             } catch (NumberFormatException e) {
@@ -310,7 +310,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập chi phí thuê của House - Chi phí thuê phải là số dương: ");
                 rentalCost =Double.parseDouble(scanner.nextLine());
-                if (FacilityException.rentalCoatCheck(rentalCost)){
+                if (FacilityExceptionUtils.rentalCoatCheck(rentalCost)){
                     return rentalCost;
                 }
             } catch (NumberFormatException e) {
@@ -325,7 +325,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Số lượng người tối đa của House - Số lượng người tối đa phải phải lớn hơn 0 và nhỏ hơn 20: ");
                 maxPerson = Integer.parseInt(scanner.nextLine());
-                if(FacilityException.maxPersonCheck(maxPerson)){
+                if(FacilityExceptionUtils.maxPersonCheck(maxPerson)){
                     return maxPerson;
                 }
             } catch (NumberFormatException e) {
@@ -340,7 +340,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập kiểu thuê của House: ");
                 typeOfRental = scanner.nextLine();
-                if(FacilityException.typeOfRentalCheck(typeOfRental)) {
+                if(FacilityExceptionUtils.typeOfRentalCheck(typeOfRental)) {
                     return typeOfRental;
                 }
             } catch (Exception e) {
@@ -355,7 +355,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.println("Nhập tiêu chuẩn phòng của House: ");
                 roomStandard = scanner.nextLine();
-                if(FacilityException.roomStandardCheck(roomStandard)){
+                if(FacilityExceptionUtils.roomStandardCheck(roomStandard)){
                     return roomStandard;
                 }
             } catch (Exception e) {
@@ -370,7 +370,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.println("Nhập số tầng của House: ");
                 numberOfFloors = Integer.parseInt(scanner.nextLine());
-                if(FacilityException.numberOfFloorsCheck(numberOfFloors)) {
+                if(FacilityExceptionUtils.numberOfFloorsCheck(numberOfFloors)) {
                     return numberOfFloors;
                 }
             } catch (NumberFormatException e) {
@@ -401,7 +401,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập mã dịch vụ của Room: ");
                 code = scanner.nextLine();
-                if(FacilityException.codeRoomCheck(code)) {
+                if(FacilityExceptionUtils.codeRoomCheck(code)) {
                     return code;
                 }
             } catch (Exception e) {
@@ -416,7 +416,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập tên dịch vụ của Room - Tên dịch vụ phải viết hoa ký tự đầu, các ký tự sau là ký tự bình thường: ");
                 name = scanner.nextLine();
-                if(FacilityException.nameServiceCheck(name)){
+                if(FacilityExceptionUtils.nameServiceCheck(name)){
                     return name;
                 }
             } catch (Exception e) {
@@ -431,7 +431,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập diện tích sử dụng của Room - Diện tích sử dụng phải là số thực lớn hơn 30m2: ");
                 araeUse = Double.parseDouble(scanner.nextLine());
-                if(FacilityException.areaUseCheck(araeUse)){
+                if(FacilityExceptionUtils.areaUseCheck(araeUse)){
                     return araeUse;
                 }
             } catch (NumberFormatException e) {
@@ -446,7 +446,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập chi phí thuê của Room - Chi phí thuê phải là số dương: ");
                 rentalCost =Double.parseDouble(scanner.nextLine());
-                if (FacilityException.rentalCoatCheck(rentalCost)){
+                if (FacilityExceptionUtils.rentalCoatCheck(rentalCost)){
                     return rentalCost;
                 }
             } catch (NumberFormatException e) {
@@ -461,7 +461,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Số lượng người tối đa của Room - Số lượng người tối đa phải phải lớn hơn 0 và nhỏ hơn 20: ");
                 maxPerson = Integer.parseInt(scanner.nextLine());
-                if(FacilityException.maxPersonCheck(maxPerson)){
+                if(FacilityExceptionUtils.maxPersonCheck(maxPerson)){
                     return maxPerson;
                 }
             } catch (NumberFormatException e) {
@@ -476,7 +476,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập kiểu thuê của Room: ");
                 typeOfRental = scanner.nextLine();
-                if(FacilityException.typeOfRentalCheck(typeOfRental)) {
+                if(FacilityExceptionUtils.typeOfRentalCheck(typeOfRental)) {
                     return typeOfRental;
                 }
             } catch (Exception e) {
@@ -489,9 +489,9 @@ public class FacilityService implements IFacilityService {
         String freeService;
         while (true) {
             try {
-                System.out.println("Nhập dịch vụ miễn phí đi kèm của Room: ");
+                System.out.print("Nhập dịch vụ miễn phí đi kèm của Room: ");
                 freeService = scanner.nextLine();
-                if(FacilityException.freeServiceCheck(freeService)) {
+                if(FacilityExceptionUtils.freeServiceCheck(freeService)) {
                     return freeService;
                 }
             } catch (Exception e) {
@@ -513,7 +513,6 @@ public class FacilityService implements IFacilityService {
             while ((line = bufferedReader.readLine()) != null) {
                 arr = line.split(",");
                 villa = new Villa(arr[0],arr[1], Double.parseDouble(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6], Double.parseDouble(arr[7]), Integer.parseInt(arr[8]));
-
                 villaList.put(villa, 0);
             }
             bufferedReader.close();

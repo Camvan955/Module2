@@ -2,7 +2,7 @@ package furama_resort.services.impl;
 
 import furama_resort.models.Customer;
 import furama_resort.services.ICustomerService;
-import furama_resort.utils.exception.CheckExceptions;
+import furama_resort.utils.exception.CheckExceptionsUtils;
 
 import java.io.*;
 import java.time.DateTimeException;
@@ -49,7 +49,7 @@ public class CustomerService implements ICustomerService {
     private Customer info() {
         String id = addCode();
         String name = addName();
-        LocalDate dayOfBirth = addDayBirth();
+        String dayOfBirth = addDayBirth();
         String gender = addGender();
         String identityCard = addidentityCard();
         String phoneNumber = addphoneNumber();
@@ -67,7 +67,7 @@ public class CustomerService implements ICustomerService {
             try {
                 System.out.print("Nhập mã khách hàng: ");
                 code = scanner.nextLine();
-                if (CheckExceptions.codeCustomerCheck(code)) {
+                if (CheckExceptionsUtils.codeCustomerCheck(code)) {
                     return code;
                 }
             } catch (Exception e) {
@@ -76,12 +76,12 @@ public class CustomerService implements ICustomerService {
         }
     }
 
-    private LocalDate addDayBirth() {
-        LocalDate dayOfBirth;
+    private String addDayBirth() {
+        String dayOfBirth;
         while (true) {
             try {
                 System.out.print("Nhập ngày sinh của khách hàng: ");
-                dayOfBirth = LocalDate.parse(scanner.nextLine(), formatter);
+                dayOfBirth = scanner.nextLine();
                 break;
             } catch (DateTimeException e) {
                 System.out.println("Không đúng định dạng, mời nhập lại");
@@ -96,7 +96,7 @@ public class CustomerService implements ICustomerService {
             try {
                 System.out.print("Nhập tên khách hàng: ");
                 name = scanner.nextLine();
-                if (CheckExceptions.nameCheck(name)) {
+                if (CheckExceptionsUtils.nameCheck(name)) {
                     return name;
                 }
             } catch (Exception e) {
@@ -111,7 +111,7 @@ public class CustomerService implements ICustomerService {
             try {
                 System.out.print("Nhập giới tính khách hàng: ");
                 gender = scanner.nextLine();
-                if (CheckExceptions.genderCheck(gender)) {
+                if (CheckExceptionsUtils.genderCheck(gender)) {
                     return gender;
                 }
             } catch (Exception e) {
@@ -126,7 +126,7 @@ public class CustomerService implements ICustomerService {
             try {
                 System.out.print("Nhập căn cước công dân của khách hàng: ");
                 identityCard = scanner.nextLine();
-                if (CheckExceptions.idCardCheck(identityCard)) {
+                if (CheckExceptionsUtils.idCardCheck(identityCard)) {
                     return identityCard;
                 }
             } catch (Exception e) {
@@ -141,7 +141,7 @@ public class CustomerService implements ICustomerService {
             try {
                 System.out.print("Nhập số điện thoại của nhân viên: ");
                 phoneNumber = scanner.nextLine();
-                if (CheckExceptions.phoneNumberCheck(phoneNumber)) {
+                if (CheckExceptionsUtils.phoneNumberCheck(phoneNumber)) {
                     return phoneNumber;
                 }
             } catch (Exception e) {
@@ -156,7 +156,7 @@ public class CustomerService implements ICustomerService {
             try {
                 System.out.print("Nhập email của khách hàng: ");
                 email = scanner.nextLine();
-                if (CheckExceptions.emailCheck(email)) {
+                if (CheckExceptionsUtils.emailCheck(email)) {
                     return email;
                 }
             } catch (Exception e) {
@@ -179,7 +179,7 @@ public class CustomerService implements ICustomerService {
                 int choice;
                 choice = Integer.parseInt(scanner.nextLine());
 
-                CheckExceptions.typeOfGuestCheck(choice);
+                CheckExceptionsUtils.typeOfGuestCheck(choice);
                 switch (choice) {
                     case 1:
                         return "Diamond";
@@ -192,7 +192,7 @@ public class CustomerService implements ICustomerService {
                     case 5:
                         return "Member";
                 }
-            } catch (CheckExceptions | NumberFormatException exceptions) {
+            } catch (CheckExceptionsUtils | NumberFormatException exceptions) {
                 System.out.println(exceptions.getMessage());
             }
         }
@@ -218,7 +218,7 @@ public class CustomerService implements ICustomerService {
             String[] arr;
             while ((line = bufferedReader.readLine()) != null) {
                 arr = line.split(",");
-                customerList.add(new Customer(arr[0], arr[1], LocalDate.parse(arr[2]), arr[3], arr[4], arr[5], arr[6], arr[7], arr[8]));
+                customerList.add(new Customer(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8]));
             }
             bufferedReader.close();
         } catch (FileNotFoundException e) {

@@ -72,7 +72,7 @@ public abstract class Facility {
     public String toString() {
         return "Facility{" +
                 "codeService='"+codeService +
-                "nameService='"+nameService +
+                ", nameService='"+nameService +
                 ", useArea=" + useArea +
                 ", rentalCost=" + rentalCost +
                 ", maxPerson=" + maxPerson +

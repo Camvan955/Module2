@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public class Person {
     private String id;
     private String name;
-    private LocalDate dayOfBirth;
+    private String dayOfBirth;
     private String gender;
     private String identityCard;
     private String phoneNumber;
@@ -15,7 +15,7 @@ public class Person {
     public Person() {
     }
 
-    public Person(String id, String name, LocalDate dayOfBirth, String gender, String identityCard, String phoneNumber, String email) {
+    public Person(String id, String name, String dayOfBirth, String gender, String identityCard, String phoneNumber, String email) {
         this.id = id;
         this.name = name;
         this.dayOfBirth = dayOfBirth;
@@ -41,11 +41,11 @@ public class Person {
         this.name = name;
     }
 
-    public LocalDate getDayOfBirth() {
+    public String getDayOfBirth() {
         return dayOfBirth;
     }
 
-    public void setDayOfBirth(LocalDate dayOfBirth) {
+    public void setDayOfBirth(String dayOfBirth) {
         this.dayOfBirth = dayOfBirth;
     }
 

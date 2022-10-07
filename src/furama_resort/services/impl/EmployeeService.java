@@ -2,10 +2,9 @@ package furama_resort.services.impl;
 
 import furama_resort.models.Employee;
 import furama_resort.services.IEmployeeService;
-import furama_resort.utils.exception.CheckExceptions;
+import furama_resort.utils.exception.CheckExceptionsUtils;
 
 import java.io.*;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -71,7 +70,7 @@ public class EmployeeService implements IEmployeeService {
     private Employee infoEmployee() {
         String id = addCode();
         String name = addName();
-        LocalDate dayOfBirth = addDayBirth();
+        String dayOfBirth = addDayBirth();
         String gender = addGender();
         String identityCard = addidentityCard();
         String phoneNumber = addphoneNumber();
@@ -91,7 +90,7 @@ public class EmployeeService implements IEmployeeService {
             try {
                 System.out.print("Nhập mã nhân viên: ");
                 code = scanner.nextLine();
-                if (CheckExceptions.codeEmployeeCheck(code)) {
+                if (CheckExceptionsUtils.codeEmployeeCheck(code)) {
                     return code;
                 }
             } catch (Exception e) {
@@ -100,18 +99,28 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
-    public LocalDate addDayBirth() {
-        LocalDate dayOfBirth;
-        while (true) {
-            try {
-                System.out.print("Ngày ngày sinh của nhân viên: ");
-                dayOfBirth = LocalDate.parse(scanner.nextLine(), formatter);
-                break;
-            } catch (DateTimeException e) {
-                System.out.println("Không đúng định dạng, mời nhập lại");
+    public String addDayBirth() {
+        String day;
+        boolean checkDate = false;
+        do {
+            checkDate = false;
+            System.out.print("Nhập vào ngày tháng năm sinh của nhân viên: ");
+            day = scanner.nextLine();
+            if (!CheckExceptionsUtils.isValidate(day)) {
+                System.out.println("Ngày tháng năm sinh của nhân viên không hợp lệ, mời nhập lại!");
+                checkDate = true;
+            } else {
+                LocalDate dayOfBirth = LocalDate.parse(day, formatter);
+                LocalDate nowSub18 = LocalDate.now().minusYears(18);
+
+                if (dayOfBirth.compareTo(nowSub18) > 0) {
+                    System.out.println("Nhân viên nhập vào không hợp vì không đủ tuổi!");
+                    checkDate = true;
+                }
             }
-        }
-        return dayOfBirth;
+
+        } while (checkDate);
+        return day;
     }
 
     private String addName() {
@@ -120,7 +129,7 @@ public class EmployeeService implements IEmployeeService {
             try {
                 System.out.print("Nhập tên nhân viên: ");
                 name = scanner.nextLine();
-                if (CheckExceptions.nameCheck(name)) {
+                if (CheckExceptionsUtils.nameCheck(name)) {
                     return name;
                 }
             } catch (Exception e) {
@@ -135,7 +144,7 @@ public class EmployeeService implements IEmployeeService {
             try {
                 System.out.print("Nhập giới tính nhân viên: ");
                 gender = scanner.nextLine();
-                if (CheckExceptions.genderCheck(gender)) {
+                if (CheckExceptionsUtils.genderCheck(gender)) {
                     return gender;
                 }
             } catch (Exception e) {
@@ -150,7 +159,7 @@ public class EmployeeService implements IEmployeeService {
             try {
                 System.out.print("Nhập căn cước công dân của nhân viên: ");
                 identityCard = scanner.nextLine();
-                if (CheckExceptions.idCardCheck(identityCard)) {
+                if (CheckExceptionsUtils.idCardCheck(identityCard)) {
                     return identityCard;
                 }
             } catch (Exception e) {
@@ -165,7 +174,7 @@ public class EmployeeService implements IEmployeeService {
             try {
                 System.out.print("Nhập số điện thoại của nhân viên: ");
                 phoneNumber = scanner.nextLine();
-                if (CheckExceptions.phoneNumberCheck(phoneNumber)) {
+                if (CheckExceptionsUtils.phoneNumberCheck(phoneNumber)) {
                     return phoneNumber;
                 }
             } catch (Exception e) {
@@ -180,7 +189,7 @@ public class EmployeeService implements IEmployeeService {
             try {
                 System.out.print("Nhập email của nhân viên: ");
                 email = scanner.nextLine();
-                if (CheckExceptions.emailCheck(email)) {
+                if (CheckExceptionsUtils.emailCheck(email)) {
                     return email;
                 }
             } catch (Exception e) {
@@ -202,7 +211,7 @@ public class EmployeeService implements IEmployeeService {
             try {
                 System.out.print("Nhập lựa chọn của bạn: ");
                 choice = Integer.parseInt(scanner.nextLine());
-                CheckExceptions.levelCheck(choice);
+                CheckExceptionsUtils.levelCheck(choice);
                 switch (choice) {
                     case 1:
                         return "Trung cấp";
@@ -213,7 +222,7 @@ public class EmployeeService implements IEmployeeService {
                     case 4:
                         return "Sau đại học";
                 }
-            } catch (CheckExceptions | NumberFormatException e) {
+            } catch (CheckExceptionsUtils | NumberFormatException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -234,7 +243,7 @@ public class EmployeeService implements IEmployeeService {
                 System.out.print("Nhập lựa chọn của bạn: ");
                 choice = Integer.parseInt(scanner.nextLine());
 
-                CheckExceptions.locationCheck(choice);
+                CheckExceptionsUtils.locationCheck(choice);
                 switch (choice) {
                     case 1:
                         return "Lễ tân";
@@ -249,7 +258,7 @@ public class EmployeeService implements IEmployeeService {
                     case 6:
                         return "Giám đốc";
                 }
-            } catch (CheckExceptions | NumberFormatException e) {
+            } catch (CheckExceptionsUtils | NumberFormatException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -261,7 +270,7 @@ public class EmployeeService implements IEmployeeService {
             try {
                 System.out.print("Nhập lương của nhân viên: ");
                 salary = Double.parseDouble(scanner.nextLine());
-                if (CheckExceptions.salaryCheck(salary)) {
+                if (CheckExceptionsUtils.salaryCheck(salary)) {
                     return salary;
                 }
             } catch (NumberFormatException e) {
@@ -281,7 +290,7 @@ public class EmployeeService implements IEmployeeService {
             String[] arr;
             while ((line = bufferedReader.readLine()) != null) {
                 arr = line.split(",");
-                employeeList.add(new Employee(arr[0], arr[1], LocalDate.parse(arr[2]), arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], Double.parseDouble(arr[9])));
+                employeeList.add(new Employee(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], Double.parseDouble(arr[9])));
             }
             bufferedReader.close();
 
