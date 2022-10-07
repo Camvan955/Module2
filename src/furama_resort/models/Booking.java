@@ -4,21 +4,21 @@ import java.time.LocalDate;
 
 public class Booking {
     private String idBooking;
-    private LocalDate dayStart;
-    private LocalDate dayEnd;
+    private String dayStart;
+    private String dayEnd;
     private String idCustomer;
-    private String nameService;
+    private String serviceCode;
     private String typeOfService;
 
     public Booking() {
     }
 
-    public Booking(String idBooking, LocalDate dayStart, LocalDate dayEnd, String idCustomer, String nameService, String typeOfService) {
+    public Booking(String idBooking, String dayStart, String dayEnd, String idCustomer, String serviceCode, String typeOfService) {
         this.idBooking = idBooking;
         this.dayStart = dayStart;
         this.dayEnd = dayEnd;
         this.idCustomer = idCustomer;
-        this.nameService = nameService;
+        this.serviceCode = serviceCode;
         this.typeOfService = typeOfService;
     }
 
@@ -30,19 +30,19 @@ public class Booking {
         this.idBooking = idBooking;
     }
 
-    public LocalDate getDayStart() {
+    public String getDayStart() {
         return dayStart;
     }
 
-    public void setDayStart(LocalDate dayStart) {
+    public void setDayStart(String dayStart) {
         this.dayStart = dayStart;
     }
 
-    public LocalDate getDayEnd() {
+    public String getDayEnd() {
         return dayEnd;
     }
 
-    public void setDayEnd(LocalDate dayEnd) {
+    public void setDayEnd(String dayEnd) {
         this.dayEnd = dayEnd;
     }
 
@@ -54,12 +54,12 @@ public class Booking {
         this.idCustomer = idCustomer;
     }
 
-    public String getNameService() {
-        return nameService;
+    public String getServiceCode() {
+        return serviceCode;
     }
 
     public void setNameService(String nameService) {
-        this.nameService = nameService;
+        this.serviceCode = serviceCode;
     }
 
     public String getTypeOfService() {
@@ -77,8 +77,11 @@ public class Booking {
                 ", dayStart=" + dayStart +
                 ", dayEnd=" + dayEnd +
                 ", idCustomer='" + idCustomer + '\'' +
-                ", nameService='" + nameService + '\'' +
+                ", serviceCode='" + serviceCode + '\'' +
                 ", typeOfService='" + typeOfService + '\'' +
                 '}';
+    }
+    public String getInfo(){
+        return String.format("%s,%s,%s,%s,%s,%s",this.idBooking,dayStart,dayEnd,idCustomer,serviceCode,typeOfService);
     }
 }

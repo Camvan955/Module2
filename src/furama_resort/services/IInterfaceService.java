@@ -8,6 +8,6 @@ public interface IInterfaceService {
 
     void addNew() throws IOException;
 
-    void edit();
+    void edit() throws IOException;
 
 }

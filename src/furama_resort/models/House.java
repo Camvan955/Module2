@@ -42,7 +42,7 @@ public class House extends Facility{
                 '}';
     }
 
-    public String getHouseInfo() {
+    public String getInfo() {
         return String.format("%s,%s,%s,%s,%s,%s,%s,%s",getCodeService(),getNameService(),getUseArea(),getRentalCost(),getMaxPerson(),getTypeOfRental(),getRoomStandard(),getNumberOfFloors());
     }
 }

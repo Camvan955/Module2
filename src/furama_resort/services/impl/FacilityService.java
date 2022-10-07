@@ -1,9 +1,7 @@
 package furama_resort.services.impl;
 
 import furama_resort.controllers.FuramaController;
-import furama_resort.models.House;
-import furama_resort.models.Room;
-import furama_resort.models.Villa;
+import furama_resort.models.*;
 import furama_resort.services.IFacilityService;
 import furama_resort.utils.exception.CheckExceptionsUtils;
 import furama_resort.utils.exception.FacilityExceptionUtils;
@@ -16,9 +14,44 @@ public class FacilityService implements IFacilityService {
     public static final String HOUSE_FILE = "src\\furama_resort\\data\\house.csv";
     public static final String ROOM_FILE = "src\\furama_resort\\data\\room.csv";
     private static Scanner scanner = new Scanner(System.in);
-    private static LinkedHashMap<Villa,Integer> villaList = new LinkedHashMap<>();
-    private static LinkedHashMap<House,Integer> houseList = new LinkedHashMap<>();
-    private static LinkedHashMap<Room,Integer> roomList = new LinkedHashMap<>();
+    private static List<Facility> maintenanceList = new ArrayList<>();
+    private static Map<Facility, Integer> facilityList = new LinkedHashMap<>();
+    private static LinkedHashMap<Villa, Integer> villaList = new LinkedHashMap<>();
+    private static LinkedHashMap<House, Integer> houseList = new LinkedHashMap<>();
+    private static LinkedHashMap<Room, Integer> roomList = new LinkedHashMap<>();
+
+    public static Map<Facility, Integer> setInfo() throws IOException {
+        villaList = readVilla();
+        houseList = readHouse();
+        roomList = readRoom();
+        for (Villa villa : villaList.keySet()) {
+            facilityList.put(villa, 0);
+        }
+        for (House house : houseList.keySet()) {
+            facilityList.put(house, houseList.get(house));
+        }
+        for (Room room : roomList.keySet()) {
+            facilityList.put(room, 0);
+        }
+        return facilityList;
+
+    }
+
+    public static void setData() throws IOException {
+        List<Booking> bookingList = BookingService.readBooking();
+        for (int i = 0; i < bookingList.size(); i++) {
+            for (Facility key : facilityList.keySet()) {
+                if (bookingList.get(i).getServiceCode().equals(key.getCodeService())) {
+                    facilityList.replace(key, facilityList.get(key) + 1);
+                    if (facilityList.get(key) == 5) {
+                        maintenanceList.add(key);
+                        writeMaintenace(maintenanceList);
+                    }
+                }
+            }
+        }
+
+    }
 
 
     @Override
@@ -26,13 +59,13 @@ public class FacilityService implements IFacilityService {
         villaList = readVilla();
         houseList = readHouse();
         roomList = readRoom();
-        for(Villa villa:villaList.keySet()){
+        for (Villa villa : villaList.keySet()) {
             System.out.println(villa);
         }
-        for (House house:houseList.keySet()){
+        for (House house : houseList.keySet()) {
             System.out.println(house);
         }
-        for (Room room:roomList.keySet()){
+        for (Room room : roomList.keySet()) {
             System.out.println(room);
         }
     }
@@ -52,19 +85,19 @@ public class FacilityService implements IFacilityService {
                 choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
-                        villaList=readVilla();
+                        villaList = readVilla();
                         Villa villa = this.getInfoVilla();
                         villaList.put(villa, 0);
                         writeVillaFile(villaList);
                         break;
                     case 2:
-                        houseList=readHouse();
-                       House house = this.getInfoHouse();
+                        houseList = readHouse();
+                        House house = this.getInfoHouse();
                         houseList.put(house, 0);
                         writeHouseFile(houseList);
                         break;
                     case 3:
-                        roomList=readRoom();
+                        roomList = readRoom();
                         Room room = this.getInfoRoom();
                         roomList.put(room, 0);
                         writeRoomFile(roomList);
@@ -90,7 +123,13 @@ public class FacilityService implements IFacilityService {
     }
 
     @Override
-    public void displayListFacilityMaintenance() {
+    public void displayListFacilityMaintenance() throws IOException {
+        setInfo();
+        setData();
+        maintenanceList = readMaintenanceList();
+        for (Facility facility : maintenanceList) {
+            System.out.println(facility.toString());
+        }
 
     }
 
@@ -104,7 +143,7 @@ public class FacilityService implements IFacilityService {
         String roomStandard = addRoomStandardVilla();
         Double swimmingPoolAarea = addswimmingPoolAarea();
         int numberOfFloors = addNumberOfFloorsVilla();
-        Villa villa = new Villa(codeService,nameService, areaUse, rentalCost, maxPerson, typeOfRental, roomStandard, swimmingPoolAarea, numberOfFloors);
+        Villa villa = new Villa(codeService, nameService, areaUse, rentalCost, maxPerson, typeOfRental, roomStandard, swimmingPoolAarea, numberOfFloors);
         return villa;
     }
 
@@ -114,7 +153,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập mã dịch vụ của Villa: ");
                 code = scanner.nextLine();
-                if(FacilityExceptionUtils.codeVillaCheck(code)) {
+                if (FacilityExceptionUtils.codeVillaCheck(code)) {
                     return code;
                 }
             } catch (Exception e) {
@@ -123,13 +162,13 @@ public class FacilityService implements IFacilityService {
         }
     }
 
-    private  String addVillaName(){
+    private String addVillaName() {
         String name;
         while (true) {
             try {
                 System.out.print("Nhập tên dịch vụ của Villa - Tên dịch vụ phải viết hoa ký tự đầu, các ký tự sau là ký tự bình thường: ");
                 name = scanner.nextLine();
-                if(FacilityExceptionUtils.nameServiceCheck(name)){
+                if (FacilityExceptionUtils.nameServiceCheck(name)) {
                     return name;
                 }
             } catch (Exception e) {
@@ -140,11 +179,11 @@ public class FacilityService implements IFacilityService {
 
     private Double addareaUseVilla() {
         Double araeUse;
-        while(true){
+        while (true) {
             try {
                 System.out.print("Nhập diện tích sử dụng của Villa - Diện tích sử dụng phải là số thực lớn hơn 30m2: ");
                 araeUse = Double.parseDouble(scanner.nextLine());
-                if(FacilityExceptionUtils.areaUseCheck(araeUse)){
+                if (FacilityExceptionUtils.areaUseCheck(araeUse)) {
                     return araeUse;
                 }
             } catch (NumberFormatException e) {
@@ -155,11 +194,11 @@ public class FacilityService implements IFacilityService {
 
     private Double addRentalCostVilla() {
         Double rentalCost;
-        while (true){
+        while (true) {
             try {
                 System.out.print("Nhập chi phí thuê của Villa - Chi phí thuê phải là số dương: ");
-                rentalCost =Double.parseDouble(scanner.nextLine());
-                if (FacilityExceptionUtils.rentalCoatCheck(rentalCost)){
+                rentalCost = Double.parseDouble(scanner.nextLine());
+                if (FacilityExceptionUtils.rentalCoatCheck(rentalCost)) {
                     return rentalCost;
                 }
             } catch (NumberFormatException e) {
@@ -174,7 +213,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Số lượng người tối đa của Villa - Số lượng người tối đa phải phải lớn hơn 0 và nhỏ hơn 20: ");
                 maxPerson = Integer.parseInt(scanner.nextLine());
-                if(FacilityExceptionUtils.maxPersonCheck(maxPerson)){
+                if (FacilityExceptionUtils.maxPersonCheck(maxPerson)) {
                     return maxPerson;
                 }
             } catch (NumberFormatException e) {
@@ -185,11 +224,11 @@ public class FacilityService implements IFacilityService {
 
     private String addtypeOfRentalVilla() {
         String typeOfRental;
-        while (true){
+        while (true) {
             try {
                 System.out.print("Nhập kiểu thuê của Villa: ");
                 typeOfRental = scanner.nextLine();
-                if(FacilityExceptionUtils.typeOfRentalCheck(typeOfRental)) {
+                if (FacilityExceptionUtils.typeOfRentalCheck(typeOfRental)) {
                     return typeOfRental;
                 }
             } catch (Exception e) {
@@ -204,7 +243,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập tiêu chuẩn phòng của Villa: ");
                 roomStandard = scanner.nextLine();
-                if(FacilityExceptionUtils.roomStandardCheck(roomStandard)){
+                if (FacilityExceptionUtils.roomStandardCheck(roomStandard)) {
                     return roomStandard;
                 }
             } catch (Exception e) {
@@ -219,7 +258,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập diện tích hồ bơi của Villa - diện tích hồ bơi phải là số thực lớn hơn 30m2: ");
                 swimmingPoolAarea = Double.parseDouble(scanner.nextLine());
-                if(FacilityExceptionUtils.swimmingPoolAareaCheck(swimmingPoolAarea)){
+                if (FacilityExceptionUtils.swimmingPoolAareaCheck(swimmingPoolAarea)) {
                     return swimmingPoolAarea;
                 }
             } catch (NumberFormatException e) {
@@ -230,11 +269,11 @@ public class FacilityService implements IFacilityService {
 
     private int addNumberOfFloorsVilla() {
         int numberOfFloors;
-        while(true) {
+        while (true) {
             try {
                 System.out.print("Nhập số tầng của Villa: ");
                 numberOfFloors = Integer.parseInt(scanner.nextLine());
-                if(FacilityExceptionUtils.numberOfFloorsCheck(numberOfFloors)) {
+                if (FacilityExceptionUtils.numberOfFloorsCheck(numberOfFloors)) {
                     return numberOfFloors;
                 }
             } catch (NumberFormatException e) {
@@ -255,7 +294,7 @@ public class FacilityService implements IFacilityService {
         String roomStandard = addRoomStandard();
         int numberOfFloors = addNumberOfFloors();
 
-        House house = new House(codeService,nameService,areaUse, rentalCost, maxPerson, typeOfRental, roomStandard, numberOfFloors);
+        House house = new House(codeService, nameService, areaUse, rentalCost, maxPerson, typeOfRental, roomStandard, numberOfFloors);
         return house;
     }
 
@@ -265,7 +304,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập mã dịch vụ của House: ");
                 code = scanner.nextLine();
-                if(FacilityExceptionUtils.codeHouseCheck(code)) {
+                if (FacilityExceptionUtils.codeHouseCheck(code)) {
                     return code;
                 }
             } catch (Exception e) {
@@ -274,13 +313,13 @@ public class FacilityService implements IFacilityService {
         }
     }
 
-    private  String addHouseName(){
+    private String addHouseName() {
         String name;
         while (true) {
             try {
                 System.out.print("Nhập tên dịch vụ của House - Tên dịch vụ phải viết hoa ký tự đầu, các ký tự sau là ký tự bình thường: ");
                 name = scanner.nextLine();
-                if(FacilityExceptionUtils.nameServiceCheck(name)){
+                if (FacilityExceptionUtils.nameServiceCheck(name)) {
                     return name;
                 }
             } catch (Exception e) {
@@ -291,11 +330,11 @@ public class FacilityService implements IFacilityService {
 
     private Double addareaUse() {
         Double araeUse;
-        while(true){
+        while (true) {
             try {
                 System.out.print("Nhập diện tích sử dụng của House - Diện tích sử dụng phải là số thực lớn hơn 30m2: ");
                 araeUse = Double.parseDouble(scanner.nextLine());
-                if(FacilityExceptionUtils.areaUseCheck(araeUse)){
+                if (FacilityExceptionUtils.areaUseCheck(araeUse)) {
                     return araeUse;
                 }
             } catch (NumberFormatException e) {
@@ -306,11 +345,11 @@ public class FacilityService implements IFacilityService {
 
     private Double addRentalCost() {
         Double rentalCost;
-        while (true){
+        while (true) {
             try {
                 System.out.print("Nhập chi phí thuê của House - Chi phí thuê phải là số dương: ");
-                rentalCost =Double.parseDouble(scanner.nextLine());
-                if (FacilityExceptionUtils.rentalCoatCheck(rentalCost)){
+                rentalCost = Double.parseDouble(scanner.nextLine());
+                if (FacilityExceptionUtils.rentalCoatCheck(rentalCost)) {
                     return rentalCost;
                 }
             } catch (NumberFormatException e) {
@@ -325,7 +364,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Số lượng người tối đa của House - Số lượng người tối đa phải phải lớn hơn 0 và nhỏ hơn 20: ");
                 maxPerson = Integer.parseInt(scanner.nextLine());
-                if(FacilityExceptionUtils.maxPersonCheck(maxPerson)){
+                if (FacilityExceptionUtils.maxPersonCheck(maxPerson)) {
                     return maxPerson;
                 }
             } catch (NumberFormatException e) {
@@ -336,11 +375,11 @@ public class FacilityService implements IFacilityService {
 
     private String addtypeOfRental() {
         String typeOfRental;
-        while (true){
+        while (true) {
             try {
                 System.out.print("Nhập kiểu thuê của House: ");
                 typeOfRental = scanner.nextLine();
-                if(FacilityExceptionUtils.typeOfRentalCheck(typeOfRental)) {
+                if (FacilityExceptionUtils.typeOfRentalCheck(typeOfRental)) {
                     return typeOfRental;
                 }
             } catch (Exception e) {
@@ -355,29 +394,29 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.println("Nhập tiêu chuẩn phòng của House: ");
                 roomStandard = scanner.nextLine();
-                if(FacilityExceptionUtils.roomStandardCheck(roomStandard)){
+                if (FacilityExceptionUtils.roomStandardCheck(roomStandard)) {
                     return roomStandard;
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
-   }
+    }
 
     private int addNumberOfFloors() {
         int numberOfFloors;
-        while(true) {
+        while (true) {
             try {
                 System.out.println("Nhập số tầng của House: ");
                 numberOfFloors = Integer.parseInt(scanner.nextLine());
-                if(FacilityExceptionUtils.numberOfFloorsCheck(numberOfFloors)) {
+                if (FacilityExceptionUtils.numberOfFloorsCheck(numberOfFloors)) {
                     return numberOfFloors;
                 }
             } catch (NumberFormatException e) {
                 System.out.println(e.getMessage());
             }
         }
-   }
+    }
 
 //------------------------------------------
 
@@ -390,7 +429,7 @@ public class FacilityService implements IFacilityService {
         String typeOfRental = addTypeOfRentalRoom();
         String freeService = addFreeService();
 
-        Room room = new Room(codeService,nameService, areaUse, rentalCost, maxPerson, typeOfRental, freeService);
+        Room room = new Room(codeService, nameService, areaUse, rentalCost, maxPerson, typeOfRental, freeService);
         return room;
 
     }
@@ -401,7 +440,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập mã dịch vụ của Room: ");
                 code = scanner.nextLine();
-                if(FacilityExceptionUtils.codeRoomCheck(code)) {
+                if (FacilityExceptionUtils.codeRoomCheck(code)) {
                     return code;
                 }
             } catch (Exception e) {
@@ -410,13 +449,13 @@ public class FacilityService implements IFacilityService {
         }
     }
 
-    private  String addRoomName(){
+    private String addRoomName() {
         String name;
         while (true) {
             try {
                 System.out.print("Nhập tên dịch vụ của Room - Tên dịch vụ phải viết hoa ký tự đầu, các ký tự sau là ký tự bình thường: ");
                 name = scanner.nextLine();
-                if(FacilityExceptionUtils.nameServiceCheck(name)){
+                if (FacilityExceptionUtils.nameServiceCheck(name)) {
                     return name;
                 }
             } catch (Exception e) {
@@ -427,11 +466,11 @@ public class FacilityService implements IFacilityService {
 
     private Double addareaUseRoom() {
         Double araeUse;
-        while(true){
+        while (true) {
             try {
                 System.out.print("Nhập diện tích sử dụng của Room - Diện tích sử dụng phải là số thực lớn hơn 30m2: ");
                 araeUse = Double.parseDouble(scanner.nextLine());
-                if(FacilityExceptionUtils.areaUseCheck(araeUse)){
+                if (FacilityExceptionUtils.areaUseCheck(araeUse)) {
                     return araeUse;
                 }
             } catch (NumberFormatException e) {
@@ -442,11 +481,11 @@ public class FacilityService implements IFacilityService {
 
     private Double addRentalCostRoom() {
         Double rentalCost;
-        while (true){
+        while (true) {
             try {
                 System.out.print("Nhập chi phí thuê của Room - Chi phí thuê phải là số dương: ");
-                rentalCost =Double.parseDouble(scanner.nextLine());
-                if (FacilityExceptionUtils.rentalCoatCheck(rentalCost)){
+                rentalCost = Double.parseDouble(scanner.nextLine());
+                if (FacilityExceptionUtils.rentalCoatCheck(rentalCost)) {
                     return rentalCost;
                 }
             } catch (NumberFormatException e) {
@@ -461,7 +500,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Số lượng người tối đa của Room - Số lượng người tối đa phải phải lớn hơn 0 và nhỏ hơn 20: ");
                 maxPerson = Integer.parseInt(scanner.nextLine());
-                if(FacilityExceptionUtils.maxPersonCheck(maxPerson)){
+                if (FacilityExceptionUtils.maxPersonCheck(maxPerson)) {
                     return maxPerson;
                 }
             } catch (NumberFormatException e) {
@@ -472,11 +511,11 @@ public class FacilityService implements IFacilityService {
 
     private String addTypeOfRentalRoom() {
         String typeOfRental;
-        while (true){
+        while (true) {
             try {
                 System.out.print("Nhập kiểu thuê của Room: ");
                 typeOfRental = scanner.nextLine();
-                if(FacilityExceptionUtils.typeOfRentalCheck(typeOfRental)) {
+                if (FacilityExceptionUtils.typeOfRentalCheck(typeOfRental)) {
                     return typeOfRental;
                 }
             } catch (Exception e) {
@@ -491,7 +530,7 @@ public class FacilityService implements IFacilityService {
             try {
                 System.out.print("Nhập dịch vụ miễn phí đi kèm của Room: ");
                 freeService = scanner.nextLine();
-                if(FacilityExceptionUtils.freeServiceCheck(freeService)) {
+                if (FacilityExceptionUtils.freeServiceCheck(freeService)) {
                     return freeService;
                 }
             } catch (Exception e) {
@@ -500,9 +539,9 @@ public class FacilityService implements IFacilityService {
         }
     }
 
-//    ------------------------------------------
+    //    ------------------------------------------
     public static LinkedHashMap<Villa, Integer> readVilla() throws IOException {
-       villaList = new LinkedHashMap<>();
+        villaList = new LinkedHashMap<>();
         BufferedReader bufferedReader = null;
         try {
             File file = new File(VILLA_FILE);
@@ -512,7 +551,7 @@ public class FacilityService implements IFacilityService {
             Villa villa;
             while ((line = bufferedReader.readLine()) != null) {
                 arr = line.split(",");
-                villa = new Villa(arr[0],arr[1], Double.parseDouble(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6], Double.parseDouble(arr[7]), Integer.parseInt(arr[8]));
+                villa = new Villa(arr[0], arr[1], Double.parseDouble(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6], Double.parseDouble(arr[7]), Integer.parseInt(arr[8]));
                 villaList.put(villa, 0);
             }
             bufferedReader.close();
@@ -526,7 +565,7 @@ public class FacilityService implements IFacilityService {
     }
 
     public static LinkedHashMap<House, Integer> readHouse() throws IOException {
-         houseList = new LinkedHashMap<>();
+        houseList = new LinkedHashMap<>();
         BufferedReader bufferedReader = null;
         try {
             File file = new File(HOUSE_FILE);
@@ -536,7 +575,7 @@ public class FacilityService implements IFacilityService {
             House house;
             while ((line = bufferedReader.readLine()) != null) {
                 arr = line.split(",");
-                house = new House(arr[0],arr[1], Double.parseDouble(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6], Integer.parseInt(arr[7]));
+                house = new House(arr[0], arr[1], Double.parseDouble(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6], Integer.parseInt(arr[7]));
 
                 houseList.put(house, 0);
             }
@@ -551,7 +590,7 @@ public class FacilityService implements IFacilityService {
     }
 
     public static LinkedHashMap<Room, Integer> readRoom() throws IOException {
-      roomList = new LinkedHashMap<>();
+        roomList = new LinkedHashMap<>();
         BufferedReader bufferedReader = null;
         try {
             File file = new File(ROOM_FILE);
@@ -561,9 +600,9 @@ public class FacilityService implements IFacilityService {
             Room room;
             while ((line = bufferedReader.readLine()) != null) {
                 arr = line.split(",");
-                room = new Room(arr[0],arr[1], Double.parseDouble(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
+                room = new Room(arr[0], arr[1], Double.parseDouble(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
 
-                roomList.put(room,0);
+                roomList.put(room, 0);
             }
             bufferedReader.close();
         } catch (FileNotFoundException e) {
@@ -575,13 +614,14 @@ public class FacilityService implements IFacilityService {
         return roomList;
     }
 
+
     public void writeVillaFile(LinkedHashMap<Villa, Integer> villaList) {
         BufferedWriter bufferedWriter = null;
         try {
             File file = new File(VILLA_FILE);
             bufferedWriter = new BufferedWriter(new FileWriter(file));
-            for (Villa villa: villaList.keySet()) {
-                bufferedWriter.write(villa.getVillaInfo());
+            for (Villa villa : villaList.keySet()) {
+                bufferedWriter.write(villa.getInfo());
                 bufferedWriter.newLine();
             }
             bufferedWriter.close();
@@ -596,8 +636,8 @@ public class FacilityService implements IFacilityService {
             File file = new File(HOUSE_FILE);
             bufferedWriter = new BufferedWriter(new FileWriter(file));
 
-            for(House house: housrList.keySet()) {
-                bufferedWriter.write(house.getHouseInfo());
+            for (House house : housrList.keySet()) {
+                bufferedWriter.write(house.getInfo());
                 bufferedWriter.newLine();
             }
             bufferedWriter.close();
@@ -612,13 +652,45 @@ public class FacilityService implements IFacilityService {
             File file = new File(ROOM_FILE);
             bufferedWriter = new BufferedWriter(new FileWriter(file));
 
-            for (Room room:roomList.keySet()) {
-                bufferedWriter.write(room.getRoomInfo());
+            for (Room room : roomList.keySet()) {
+                bufferedWriter.write(room.getInfo());
                 bufferedWriter.newLine();
                 bufferedWriter.close();
             }
         } catch (IOException e) {
             System.out.println("Không mở được file");
         }
+    }
+
+    public static List<Facility> readMaintenanceList() throws IOException {
+        maintenanceList = new ArrayList<>();
+        File file = new File("src\\furama_resort\\data\\maintenanceFacility.csv");
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String line;
+        String[] arr;
+        while ((line = bufferedReader.readLine()) != null) {
+            arr = line.split(",");
+            if (line.contains("SVVL-")) {
+                maintenanceList.add(new Villa(arr[0], arr[1], Double.parseDouble(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6], Double.parseDouble(arr[7]), Integer.parseInt(arr[8])));
+            } else if (line.contains("VLHO-")) {
+                maintenanceList.add(new House(arr[0], arr[1], Double.parseDouble(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6], Integer.parseInt(arr[7])));
+            } else {
+                maintenanceList.add(new Room(arr[0], arr[1], Double.parseDouble(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]));
+
+            }
+        }
+        bufferedReader.close();
+        return maintenanceList;
+    }
+
+    public static void writeMaintenace(List<Facility> maintenanceList) throws IOException {
+        File file = new File("src\\furama_resort\\data\\maintenanceFacility.csv");
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+        for (Facility facility : maintenanceList) {
+            bufferedWriter.write(facility.getInfo());
+            bufferedWriter.newLine();
+        }
+        bufferedWriter.close();
     }
 }

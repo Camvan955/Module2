@@ -30,7 +30,7 @@ public class Room extends Facility {
                 '}';
     }
 
-    public String getRoomInfo() {
+    public String getInfo() {
         return String.format("%s,%s,%s,%s,%s,%s,%s",getCodeService(),getNameService(), getUseArea(),getRentalCost(),getMaxPerson(),getTypeOfRental(),getFreeService());
     }
 

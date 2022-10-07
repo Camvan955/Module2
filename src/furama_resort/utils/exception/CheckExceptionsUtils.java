@@ -40,6 +40,23 @@ public class CheckExceptionsUtils extends Exception {
         }
     }
 
+    public static boolean codeCheck(String code) {
+        List<Employee> employeeList = EmployeeService.readFileEmployee();
+        try {
+            String regex = "^NV[0-9]{3,6}$";
+            if (!code.matches(regex)) {
+                throw new CheckExceptionsUtils("Không đúng định dạng, mời nhập lại");
+            }
+            return true;
+        } catch (CheckExceptionsUtils e) {
+            System.out.println(e.getMessage());
+            return false;
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
     public static boolean codeCustomerCheck(String code) {
         try {
             List<Customer> customerList = CustomerService.readCustomerFile();

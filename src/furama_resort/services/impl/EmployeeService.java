@@ -1,5 +1,6 @@
 package furama_resort.services.impl;
 
+import furama_resort.controllers.FuramaController;
 import furama_resort.models.Employee;
 import furama_resort.services.IEmployeeService;
 import furama_resort.utils.exception.CheckExceptionsUtils;
@@ -22,7 +23,7 @@ public class EmployeeService implements IEmployeeService {
     public void displayList() {
         employeeList = readFileEmployee();
 
-        if (employeeList.size() == 0) {
+        if (employeeList.size() != 0) {
             System.out.println("Không có danh sách nhân viên để hiển thị!");
         }
         for (Employee employee : employeeList) {
@@ -46,25 +47,184 @@ public class EmployeeService implements IEmployeeService {
     public void edit() {
         employeeList = readFileEmployee();
 
-        System.out.print("Nhập mã khách hàng cần chỉnh sửa: ");
-        String code = scanner.nextLine();
 
-        boolean isCode = true;
+        boolean isCode = false;
+        System.out.print("Nhập mã nhân viên cần chỉnh sửa: ");
+        String codeEdit = scanner.nextLine();
+        CheckExceptionsUtils.codeCheck(codeEdit);
         for (int i = 0; i < employeeList.size(); i++) {
-            if (employeeList.get(i).getId().equals(code)) {
-                Employee employee = this.infoEmployee();
-                employeeList.set(i, employee);
-                isCode = false;
-                System.out.println("Chỉnh sửa nhân viên thành công!");
+            if (employeeList.get(i).getId().equals(codeEdit)) {
+                isCode = true;
                 break;
             }
         }
         if (isCode) {
-            System.out.println("Không tìm thấy khách hàng với mã vừa nhập!");
+            for (Employee employee : employeeList) {
+                System.out.println("Bắt đầu chỉnh sửa");
+                System.out.println("1. Chỉnh sửa toàn bộ");
+                System.out.println("2. Chỉnh sửa một phần theo: ");
+                System.out.println("3. Không chỉnh sửa nữa!");
+
+                System.out.print("LỰa chọn của bạn là: ");
+                int choice = Integer.parseInt(scanner.nextLine());
+
+                switch (choice) {
+                    case 1:
+                        for (int i = 0; i < employeeList.size(); i++) {
+                            if (employeeList.get(i).getId().equals(codeEdit)) {
+                                employee = this.infoEmployee();
+                                employeeList.set(i, employee);
+                                isCode = false;
+                                System.out.println("Chỉnh sửa nhân viên thành công!");
+                                break;
+                            }
+                        }
+                        break;
+                    case 2:
+                        while (true) {
+                            System.out.println("Bạn muốn chỉnh sửa theo: ");
+                            System.out.println("1. Tên");
+                            System.out.println("2. Ngày tháng năm sinh");
+                            System.out.println("3. Giới tính");
+                            System.out.println("4. CCCD");
+                            System.out.println("5. Số điện thoại");
+                            System.out.println("6. Email");
+                            System.out.println("7. Trình độ");
+                            System.out.println("8. Vị trí");
+                            System.out.println("9. Lương");
+                            System.out.println("0. Chỉnh sửa xong!");
+
+                            System.out.print("Lựa chọn của bạn là: ");
+                            int choicee = Integer.parseInt(scanner.nextLine());
+
+                            switch (choicee) {
+                                case 0:
+                                    try {
+                                        FuramaController.employeeManagement();
+                                    } catch (IOException e) {
+                                        System.out.println(e.getMessage());
+                                    }
+                                    break;
+                                case 1:
+                                    String nameNew;
+                                    while (true) {
+                                        try {
+                                            System.out.print("Nhập vào tên nhân viên mới: ");
+                                            nameNew = scanner.nextLine();
+                                            CheckExceptionsUtils.nameCheck(nameNew);
+                                            System.out.println("Chỉnh sửa thành công");
+                                            break;
+                                        } catch (Exception e) {
+                                            System.out.println(e.getMessage());
+                                        }
+                                    }
+                                    employee.setName(nameNew);
+                                    break;
+                                case 2:
+                                    String newDay;
+                                    while (true) {
+                                        try {
+                                            System.out.print("Nhập ngày tháng năm sinh mới: ");
+                                            newDay = scanner.nextLine();
+                                            CheckExceptionsUtils.isValidate(newDay);
+                                            System.out.println("Chỉnh sửa thành công");
+                                            break;
+                                        } catch (Exception e) {
+                                            System.out.println(e.getMessage());
+                                        }
+                                    }
+                                    employee.setDayOfBirth(newDay);
+                                    break;
+                                case 3:
+                                    String genderNew;
+                                    while (true) {
+                                        try {
+                                            System.out.print("Nhập giới tính mới: ");
+                                            genderNew = scanner.nextLine();
+                                            CheckExceptionsUtils.genderCheck(genderNew);
+                                            System.out.println("Chỉnh sửa thành công!");
+                                            break;
+                                        } catch (Exception e) {
+                                            System.out.println(e.getMessage());
+                                        }
+                                    }
+                                    employee.setGender(genderNew);
+                                    break;
+
+                                case 4:
+                                    String idCardNew;
+                                    while (true) {
+                                        try {
+                                            System.out.print("Nhập CCCD mới: ");
+                                            idCardNew = scanner.nextLine();
+                                            CheckExceptionsUtils.idCardCheck(idCardNew);
+                                            System.out.println("Chỉnh sửa thành công!");
+                                            break;
+                                        } catch (Exception e) {
+                                            System.out.println(e.getMessage());
+                                        }
+                                    }
+                                    employee.setIdentityCard(idCardNew);
+                                    break;
+
+                                case 5:
+                                    String phoneNumber;
+                                    while (true) {
+                                        try {
+                                            System.out.print("Nhập số điện thoại mới: ");
+                                            phoneNumber = scanner.nextLine();
+                                            CheckExceptionsUtils.phoneNumberCheck(phoneNumber);
+                                            System.out.println("Chỉnh sửa thành công!");
+                                            break;
+                                        } catch (Exception e) {
+                                            System.out.println(e.getMessage());
+                                        }
+                                    }
+                                    employee.setPhoneNumber(phoneNumber);
+                                    break;
+                                case 6:
+                                    String email;
+                                    while (true){
+                                        try {
+                                            System.out.print("Nhập email mới: ");
+                                            email = scanner.nextLine();
+                                            CheckExceptionsUtils.emailCheck(email);
+                                            System.out.println("Chỉnh sửa thành công!");
+                                            break;
+                                        } catch (Exception e) {
+                                            System.out.println(e.getMessage());
+                                        }
+                                    }
+                                    employee.setEmail(email);
+                                    break;
+                                case 9:
+                                    Double salary;
+                                    while (true) {
+                                        try {
+                                            System.out.println("Nhập lương mới: ");
+                                            salary = Double.parseDouble(scanner.nextLine());
+                                            CheckExceptionsUtils.salaryCheck(salary);
+                                            System.out.println("Chỉnh sửa thành công!");
+                                            break;
+                                        } catch (NumberFormatException e) {
+                                            System.out.println(e.getMessage());
+                                        }
+                                    }
+                                    employee.setSalary(salary);
+                            }
+                            writeEmployeeFile(employeeList);
+                        }
+                    case 3:
+                        try {
+                            FuramaController.employeeManagement();
+                        } catch (IOException e) {
+                            System.out.println(e.getMessage());
+                        }
+                }
+            }
+        } else {
+            System.out.println("Không có thông tin cần chỉnh sửa");
         }
-
-        writeEmployeeFile(employeeList);
-
     }
 
     private Employee infoEmployee() {
@@ -112,9 +272,15 @@ public class EmployeeService implements IEmployeeService {
             } else {
                 LocalDate dayOfBirth = LocalDate.parse(day, formatter);
                 LocalDate nowSub18 = LocalDate.now().minusYears(18);
+                LocalDate nowSub100 = LocalDate.now().minusYears(100);
 
                 if (dayOfBirth.compareTo(nowSub18) > 0) {
                     System.out.println("Nhân viên nhập vào không hợp vì không đủ tuổi!");
+                    checkDate = true;
+                }
+
+                if (dayOfBirth.compareTo((nowSub100)) < 0) {
+                    System.out.println("Nhân viên nhập vào quá 100 tuổi");
                     checkDate = true;
                 }
             }
