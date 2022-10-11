@@ -96,7 +96,7 @@ public class FacilityExceptionUtils extends Exception {
     public static boolean nameServiceCheck(String name) {
 
         try {
-            String regex = "^([A-ZĐ][a-záàảãạăâắằấầặẵẫêậẩéèẻẽẹếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+[ ])+[a-záàảãạăâắằấầặẵẫậéèẻẽẹếềểễệóòêỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ0-9]+$";
+            String regex = "^([A-ZĐ][a-záàảãạăâắằấầặẵẫêậẩéèẻẽẹếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ]+[ ])+[a-záàảãạăâắằấầặẵẫậéèẻẽẹếềểễệóòêỏõọôốồổỗộơớờởỡợíìỉĩịđùúủũụưứửữựỷỹ0-9]+qưẻ$";
 
             if (!name.matches(regex)) {
                 throw new FacilityExceptionUtils("Tên dịch vụ phải viết hoa ký tự đầu, các ký tự sau là ký tự bình thường. Vui lòng nhập đúng định dạng!");

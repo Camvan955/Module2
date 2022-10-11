@@ -98,7 +98,7 @@ public class TeacherService implements ITeacherService {
     public void displayTeacher() throws IOException {
         teacherList = getAllTeacherFromFile();
         for (Teacher teacher : teacherList) {
-            System.out.println(teacher);
+            System.out.println(teacher.getInfo());
         }
     }
 

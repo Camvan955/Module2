@@ -1,32 +1,30 @@
-package ss19_string_regex.exercise.exercise_plus.model;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+package mvc.model;
 
 public abstract class Person {
-    private String code;
+    private String id;
     private String name;
-    private LocalDate dayOfBirth;
+    private String dayOfBirth;
     private String gender;
 
-    public abstract String getInfo();
+   public abstract String getInfo();
+
 
     public Person() {
     }
 
-    public Person(String code, String name, LocalDate dayOfBirth, String gender) {
-        this.code = code;
+    public Person(String id, String name, String dayOfBirth, String gender) {
+        this.id = id;
         this.name = name;
         this.dayOfBirth = dayOfBirth;
         this.gender = gender;
     }
 
-    public String getCode() {
-        return code;
+    public String getId() {
+        return id;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -37,11 +35,11 @@ public abstract class Person {
         this.name = name;
     }
 
-    public LocalDate getDayOfBirth() {
+    public String getDayOfBirth() {
         return dayOfBirth;
     }
 
-    public void setDayOfBirth(LocalDate dayOfBirth, DateTimeFormatter formatter) {
+    public void setDayOfBirth(String dayOfBirth) {
         this.dayOfBirth = dayOfBirth;
     }
 
@@ -56,10 +54,10 @@ public abstract class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "code=" + code +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", dayOfBirth=" + dayOfBirth +
-                ", gender=" + gender +
+                ", dayOfBirth='" + dayOfBirth + '\'' +
+                ", gender='" + gender + '\'' +
                 '}';
     }
 }

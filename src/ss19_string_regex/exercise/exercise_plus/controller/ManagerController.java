@@ -1,9 +1,11 @@
 package ss19_string_regex.exercise.exercise_plus.controller;
 
+import furama_resort.utils.exception.CheckExceptionsUtils;
 import ss19_string_regex.exercise.exercise_plus.service.IStudentService;
 import ss19_string_regex.exercise.exercise_plus.service.ITeacherService;
 import ss19_string_regex.exercise.exercise_plus.service.impl.StudentService;
 import ss19_string_regex.exercise.exercise_plus.service.impl.TeacherService;
+import ss19_string_regex.exercise.exercise_plus.ultis.CheckInputException;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -15,7 +17,7 @@ public class ManagerController {
     private static ITeacherService iTeacherService = new TeacherService();
 
 
-    public static void menuManageData() throws IOException {
+    public static void menuManageData() throws IOException, CheckExceptionsUtils, CheckInputException {
         while (true) {
             System.out.println("------------------------------------------------");
             System.out.println("CHƯƠNG TRÌNH QUẢN LÝ GIẢNG VIÊN VÀ HỌC VIÊN");
@@ -26,6 +28,7 @@ public class ManagerController {
             System.out.print("Lựa chọn của bạn là: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
+            CheckInputException.CheckInput(choice);
             switch (choice) {
                 case 1:
                     ManagerController.menuTeacher();
@@ -42,7 +45,7 @@ public class ManagerController {
     }
 
 
-    public static void menuStudent() throws IOException {
+    public static void menuStudent() throws IOException, CheckExceptionsUtils, CheckInputException {
         while (true) {
             System.out.println("------------------------------------------------");
             System.out.println("Chương trình quản lý sinh viên");
@@ -79,7 +82,7 @@ public class ManagerController {
         }
     }
 
-    public static void menuTeacher() throws IOException {
+    public static void menuTeacher() throws IOException, CheckExceptionsUtils, CheckInputException {
         while (true) {
             System.out.println("------------------------------------------------");
             System.out.println("Chương trình quản lý giảng viên");
@@ -117,7 +120,7 @@ public class ManagerController {
         }
     }
 
-    public static void menuSearchStudent() throws IOException {
+    public static void menuSearchStudent() throws IOException, CheckExceptionsUtils, CheckInputException {
         while (true) {
             System.out.println("------------------------------------");
             System.out.println("Tìm kiếm sinh viên");
@@ -141,7 +144,7 @@ public class ManagerController {
         }
     }
 
-    public static void menuSearchTeacher() throws IOException {
+    public static void menuSearchTeacher() throws IOException, CheckExceptionsUtils, CheckInputException {
         while (true) {
             System.out.println("------------------------------------");
             System.out.println("Tìm kiếm giảng viên");
